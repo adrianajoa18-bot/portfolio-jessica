@@ -728,6 +728,8 @@
                         <option value="excel">Excel con Dashboard</option>
                         <option value="webpage">Página Web/HTML</option>
                         <option value="powerbi">Reporte Power BI (embed)</option>
+                        <!-- New option to allow uploading presentations -->
+                        <option value="ppt">Presentación PowerPoint</option>
                     </select>
                 </div>
                 <div class="form-group" id="fileUploadGroup" style="display: none;">
@@ -841,6 +843,10 @@
                 } else if (project.type === 'webpage') {
                     fileBadge = '<span class="tag">🌐 Página Web</span>';
                     viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Página</button>`;
+                } else if (project.type === 'ppt') {
+                    // Badge and button for PowerPoint presentations
+                    fileBadge = '<span class="tag">📑 PowerPoint</span>';
+                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver PPT</button>`;
                 } else if (project.type === 'powerbi') {
                     fileBadge = '<span class="tag">📊 Power BI</span>';
                     viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Reporte</button>`;
@@ -876,10 +882,19 @@
             const type = document.getElementById('projectType').value;
             const fileGroup = document.getElementById('fileUploadGroup');
             const embedGroup = document.getElementById('embedLinkGroup');
-            if (type === 'excel' || type === 'webpage') {
+            // Show the file upload for Excel, Webpage or PPT types
+            if (type === 'excel' || type === 'webpage' || type === 'ppt') {
                 fileGroup.style.display = 'block';
                 embedGroup.style.display = 'none';
-                document.getElementById('projectFile').accept = type === 'excel' ? '.xlsx,.xls' : '.html,.htm';
+                // Configure accepted file extensions based on the selected type
+                if (type === 'excel') {
+                    document.getElementById('projectFile').accept = '.xlsx,.xls';
+                } else if (type === 'webpage') {
+                    document.getElementById('projectFile').accept = '.html,.htm';
+                } else {
+                    // For PPT projects accept both .ppt and .pptx
+                    document.getElementById('projectFile').accept = '.ppt,.pptx';
+                }
             } else if (type === 'powerbi') {
                 fileGroup.style.display = 'none';
                 embedGroup.style.display = 'block';
@@ -904,7 +919,8 @@
             };
             const fileInput = document.getElementById('projectFile');
             const embedLink = document.getElementById('embedLink').value;
-            if ((newProject.type === 'excel' || newProject.type === 'webpage') && fileInput.files.length > 0) {
+            // If the project requires a file (Excel, Webpage or PPT) and a file is provided
+            if ((newProject.type === 'excel' || newProject.type === 'webpage' || newProject.type === 'ppt') && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -970,6 +986,9 @@
                 const blob = dataURItoBlob(project.fileData);
                 const url = URL.createObjectURL(blob);
                 body.innerHTML = `<iframe style="width:100%;height:80vh;border:none;" src="${url}"></iframe>`;
+            } else if (project.type === 'ppt' && project.fileData) {
+                // Preview for PowerPoint presentations: offer a download with file name
+                body.innerHTML = `<div style="padding: 1rem;"><h3>📑 Presentación PowerPoint</h3><p>Descargá la presentación para verla.</p><p><strong>Archivo:</strong> ${project.fileName}</p><button onclick="downloadFile(${id})" class="view-project-btn">📥 Descargar PPT</button></div>`;
             } else if (project.type === 'powerbi' && project.embedLink) {
                 body.innerHTML = `<iframe style="width:100%;height:80vh;border:none;" src="${project.embedLink}"></iframe>`;
             }
