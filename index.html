@@ -27,7 +27,13 @@
             --accent: #2980b9;       /* corporate blue for interactive elements */
             --light: #f7f9fc;        /* very light grey background */
             --dark: #0c1a2a;         /* almost black for footers and cards */
-            --gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            /*
+             * Updated gradient for a more polished, corporate feel. The deep
+             * navy and muted teal tones convey professionalism without
+             * overpowering the content. Feel free to adjust these values
+             * slightly to suit your personal brand.
+             */
+            --gradient: linear-gradient(135deg, #0a3d62 0%, #3c6382 100%);
         }
         body {
             font-family: 'Poppins', sans-serif;
@@ -89,6 +95,11 @@
          * text uses a serif font for your name paired with a sans‑serif subtitle.
          */
         .hero {
+            /*
+             * The hero section uses the gradient defined above as its
+             * background. The simplified design focuses attention on your
+             * name and tagline while still providing a rich, modern feel.
+             */
             min-height: 100vh;
             background: var(--gradient);
             display: flex;
@@ -96,20 +107,6 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-        }
-        /* animated grid overlay */
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 80px 80px;
-            animation: moveGrid 40s linear infinite;
-        }
-        @keyframes moveGrid {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(80px, 80px); }
         }
         .hero-content {
             text-align: center;
@@ -183,13 +180,14 @@
             width: 100%;
             max-width: 400px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            animation: float 3s ease-in-out infinite;
+            /* A softer shadow and no float animation for a more formal feel */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
+        /* Removed floating animation for the profile image to convey a more
+         * professional and minimalist aesthetic. If you wish to reintroduce
+         * motion, consider subtle scroll-based effects instead of continuous
+         * bouncing.
+         */
         .about-content h3 {
             font-size: 1.8rem;
             margin-bottom: 1rem;
@@ -575,16 +573,16 @@
         <h2 class="section-title">Sobre Mí</h2>
         <div class="about-grid">
             <div>
-                <!-- Placeholder for your photo. Replace the SVG with an actual image if you have one. -->
-                <img src="logo.png" alt="Foto de perfil" class="profile-image">
+                <!-- Foto de perfil: imagen de alta resolución -->
+                <img src="profile.png" alt="Foto de perfil" class="profile-image">
             </div>
             <div class="about-content">
                 <h3>¡Hola! 👋</h3>
                 <p>Soy estudiante avanzada de Actuario en la Universidad de Buenos Aires con una profunda pasión por la ciencia de datos y el análisis.</p>
                 <p>Busco oportunidades para desarrollarme profesional y personalmente, donde pueda aportar mi determinación, ganas de aprender y compromiso con cada proyecto. Me motivan los entornos que impulsan el crecimiento y presentan nuevos desafíos.</p>
-                <p>📍 Tablada, Buenos Aires, Argentina<br>
-                📧 jessica-ojedaarenas@outlook.com<br>
-                📱 +54 11 2824‑9890</p>
+                <!-- Contact details removed from About; these are provided in the
+                     dedicated Contact section below to avoid repetition and keep
+                     the bio concise. -->
             </div>
         </div>
     </section>
