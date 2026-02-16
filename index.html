@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessica Ojeda Arenas – Portfolio</title>
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * Global resets
+         */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /*
+         * Colour palette
+         *
+         * The colours defined here are slightly toned down to convey a more
+         * polished, international look. Feel free to adjust them to taste.
+         */
+        :root {
+            --primary: #0d253f;       /* deep navy for headings and text */
+            --secondary: #e67e22;    /* warm accent for highlights */
+            --accent: #2980b9;       /* corporate blue for interactive elements */
+            --light: #f7f9fc;        /* very light grey background */
+            --dark: #0c1a2a;         /* almost black for footers and cards */
+            --gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        /*
+         * Navigation bar
+         *
+         * The navigation bar floats at the top of the page and uses a semi‑transparent
+         * backdrop. A small circular logo sits on the left followed by the menu.
+         */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            padding: 1rem 2rem;
+            display: none; /* shown on scroll via JS */
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-container img.logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--accent);
+        }
+        /*
+         * Hero section
+         *
+         * A full‑height banner with a soft gradient and a subtle moving grid. The
+         * text uses a serif font for your name paired with a sans‑serif subtitle.
+         */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        /* animated grid overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 80px 80px;
+            animation: moveGrid 40s linear infinite;
+        }
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(80px, 80px); }
+        }
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            padding: 2rem;
+            animation: fadeInUp 1.5s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+        .hero .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        /* Section layout */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        /* About section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .profile-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .about-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        .about-content p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        /* Skills section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .skill-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .skill-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        /* Projects section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        .project-content {
+            padding: 1.5rem;
+        }
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .project-category {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .project-description {
+            color: #555;
+            line-height: 1.5;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .tag {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+        /* Buttons */
+        .view-project-btn, .edit-btn, .delete-btn, .download-btn {
+            display: inline-block;
+            cursor: pointer;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .view-project-btn {
+            background: var(--gradient);
+            color: white;
+            margin-top: 0.5rem;
+        }
+        .view-project-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .edit-btn {
+            background: var(--accent);
+            color: white;
+            margin-right: 0.5rem;
+        }
+        .edit-btn:hover {
+            background: var(--primary);
+        }
+        .delete-btn {
+            background: var(--secondary);
+            color: white;
+        }
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        .download-btn {
+            background: #27ae60;
+            color: white;
+        }
+        .download-btn:hover {
+            background: #229954;
+        }
+        /* Floating add button */
+        .add-project-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 55px;
+            height: 55px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        .add-project-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        /* Contact section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        .contact-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+        }
+        .contact-info {
+            font-size: 1rem;
+        }
+        /* Experience timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient);
+        }
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            width: 45%;
+        }
+        .timeline-date {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .timeline-company {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        footer p {
+            font-size: 0.9rem;
+        }
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .timeline::before {
+                left: 0;
+            }
+            .timeline-content {
+                width: 100%;
+            }
+            .timeline-item {
+                flex-direction: column !important;
+            }
+            .navbar-container ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar: initially hidden, displayed when the user scrolls -->
+    <nav id="navbar">
+        <div class="navbar-container">
+            <div style="display:flex;align-items:center;">
+                <img src="logo.png" alt="Logo" class="logo">
+                <strong style="font-size:1.2rem;margin-left:0.5rem;">Jessica Ojeda</strong>
+            </div>
+            <ul>
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#about">Sobre Mí</a></li>
+                <li><a href="#skills">Habilidades</a></li>
+                <li><a href="#projects">Proyectos</a></li>
+                <li><a href="#experience">Experiencia</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero / landing section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Jessica Ojeda Arenas</h1>
+            <p class="subtitle">Estudiante avanzada de Actuario • Data Science &amp; Analytics</p>
+            <div>
+                <a href="#projects" class="cta-button">Ver Proyectos</a>
+                <a href="#contact" class="cta-button">Contacto</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About section -->
+    <section id="about">
+        <h2 class="section-title">Sobre Mí</h2>
+        <div class="about-grid">
+            <div>
+                <!-- Placeholder for your photo. Replace the SVG with an actual image if you have one. -->
+                <img src="logo.png" alt="Foto de perfil" class="profile-image">
+            </div>
+            <div class="about-content">
+                <h3>¡Hola! 👋</h3>
+                <p>Soy estudiante avanzada de Actuario en la Universidad de Buenos Aires con una profunda pasión por la ciencia de datos y el análisis.</p>
+                <p>Busco oportunidades para desarrollarme profesional y personalmente, donde pueda aportar mi determinación, ganas de aprender y compromiso con cada proyecto. Me motivan los entornos que impulsan el crecimiento y presentan nuevos desafíos.</p>
+                <p>📍 Tablada, Buenos Aires, Argentina<br>
+                📧 jessica-ojedaarenas@outlook.com<br>
+                📱 +54 11 2824‑9890</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills section -->
+    <section id="skills">
+        <h2 class="section-title">Habilidades Técnicas</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">📊</div>
+                <div class="skill-name">Excel Avanzado</div>
+                <p>Análisis de datos, tablas dinámicas, macros</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">📈</div>
+                <div class="skill-name">Power BI</div>
+                <p>Visualización de datos y dashboards</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🗄️</div>
+                <div class="skill-name">SQL Server</div>
+                <p>Consultas y gestión de bases de datos</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">📉</div>
+                <div class="skill-name">Tableau</div>
+                <p>Análisis visual y reportes interactivos</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🐍</div>
+                <div class="skill-name">Python</div>
+                <p>Data science, Pandas, NumPy, scikit‑learn</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🤖</div>
+                <div class="skill-name">IA &amp; Machine Learning</div>
+                <p>Modelos predictivos y análisis avanzado</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects section -->
+    <section id="projects">
+        <h2 class="section-title">Proyectos</h2>
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Cards generated dynamically via JS -->
+        </div>
+    </section>
+
+    <!-- Experience section -->
+    <section id="experience">
+        <h2 class="section-title">Experiencia</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">03/2024 – 05/2025</div>
+                    <h3 class="timeline-title">Asistente Administrativa</h3>
+                    <div class="timeline-company">SOLUCRED</div>
+                    <p>Administración y mantenimiento de bases de datos de cobranza, actualización de cartera de clientes, validación de información y control documental.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">08/2025 – 12/2025</div>
+                    <h3 class="timeline-title">Programa Tu empleo – Liderazgo</h3>
+                    <div class="timeline-company">Fundación Empujar</div>
+                    <p>Liderazgo en el área de administración, organización y coordinación de equipo, gestión eficiente de tiempos y tareas.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2023</div>
+                    <h3 class="timeline-title">Asistente de Recolección de Datos</h3>
+                    <div class="timeline-company">Ministerio de Trabajo (Pasantía)</div>
+                    <p>Participación en operativos territoriales para encuestas presenciales, verificación de datos y carga en sistema interno.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact section -->
+    <section id="contact">
+        <h2 class="section-title">Contacto</h2>
+        <div class="contact-grid" id="contactGrid"></div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="view-project-btn" onclick="openContactModal()">✏️ Editar Información de Contacto</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Jessica Ojeda Arenas. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Floating button to add new projects -->
+    <button class="add-project-btn" onclick="openModal()">+</button>
+
+    <!-- Project modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Agregar Proyecto</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="projectForm" onsubmit="addProject(event)">
+                <div class="form-group">
+                    <label for="projectTitle">Título del Proyecto</label>
+                    <input type="text" id="projectTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectCategory">Categoría</label>
+                    <select id="projectCategory" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Excel">Excel</option>
+                        <option value="Power BI">Power BI</option>
+                        <option value="SQL">SQL</option>
+                        <option value="Tableau">Tableau</option>
+                        <option value="Python">Python</option>
+                        <option value="IA & ML">IA & Machine Learning</option>
+                        <option value="Productividad">Productividad</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Descripción</label>
+                    <textarea id="projectDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectTags">Etiquetas (separadas por comas)</label>
+                    <input type="text" id="projectTags" placeholder="Python, Pandas, ML">
+                </div>
+                <div class="form-group">
+                    <label for="projectIcon">Ícono (emoji)</label>
+                    <input type="text" id="projectIcon" placeholder="📊" maxlength="2">
+                </div>
+                <div class="form-group">
+                    <label for="projectLink">Link del proyecto (opcional)</label>
+                    <input type="url" id="projectLink" placeholder="https://">
+                </div>
+                <div class="form-group">
+                    <label for="projectType">Tipo de Proyecto</label>
+                    <select id="projectType" onchange="toggleFileUpload()">
+                        <option value="standard">Estándar (solo descripción)</option>
+                        <option value="excel">Excel con Dashboard</option>
+                        <option value="webpage">Página Web/HTML</option>
+                        <option value="powerbi">Reporte Power BI (embed)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="fileUploadGroup" style="display: none;">
+                    <label for="projectFile">Subir Archivo</label>
+                    <input type="file" id="projectFile" accept=".xlsx,.xls,.html,.htm">
+                    <small style="color: #666; font-size: 0.85rem;">Excel (.xlsx, .xls) o HTML (.html, .htm)</small>
+                </div>
+                <div class="form-group" id="embedLinkGroup" style="display: none;">
+                    <label for="embedLink">Link de Embed de Power BI</label>
+                    <input type="url" id="embedLink" placeholder="https://app.powerbi.com/view?r=...">
+                    <small style="color: #666; font-size: 0.85rem;">Pegá el link público de tu reporte</small>
+                </div>
+                <button type="submit" class="submit-btn">Agregar Proyecto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Preview modal -->
+    <div class="modal" id="previewModal">
+        <div class="modal-content" style="width: 95%; max-width: 900px; height: 90%; max-height: 90%; border-radius: 15px;">
+            <div class="modal-header">
+                <h2 id="previewTitle">Vista Previa</h2>
+                <button class="close-modal" onclick="closePreview()">&times;</button>
+            </div>
+            <div id="previewBody" style="flex: 1; overflow:auto;"></div>
+        </div>
+    </div>
+
+    <!-- Contact edit modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Editar Contacto</h2>
+                <button class="close-modal" onclick="closeContactModal()">&times;</button>
+            </div>
+            <form id="contactForm" onsubmit="updateContact(event)">
+                <div class="form-group">
+                    <label for="contactEmail">Email</label>
+                    <input type="email" id="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">Teléfono</label>
+                    <input type="tel" id="contactPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactLinkedin">Nombre en LinkedIn</label>
+                    <input type="text" id="contactLinkedin" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactLinkedinUrl">URL de LinkedIn</label>
+                    <input type="url" id="contactLinkedinUrl" placeholder="https://www.linkedin.com/in/tu-perfil" required>
+                    <small style="color: #666; font-size: 0.85rem;">Pegá el link completo de tu perfil de LinkedIn</small>
+                </div>
+                <div class="form-group">
+                    <label for="contactLocation">Ubicación</label>
+                    <input type="text" id="contactLocation" required>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /*
+         * Portfolio configuration
+         *
+         * The projects array defines the projects that appear in the grid. Each project
+         * has an id, title, category, description, tags, icon and optional link/file.
+         * Feel free to edit or extend this list; the UI will update automatically.
+         */
+        let projects = [
+            { id: 1, title: "Dashboard Mercado Financiero – Análisis Técnico", category: "Excel", description: "Dashboard interactivo de análisis del mercado financiero argentino con análisis técnico integrado. Incluye KPIs, gráficos dinámicos, tablas pivote y visualizaciones automatizadas para seguimiento de indicadores económicos.", tags: ["Excel", "Dashboard", "Análisis Financiero", "Análisis Técnico", "Macros"], icon: "💹", link: "https://drive.google.com/uc?export=download&id=1BWa6hFNmix_OS0FT2vqeW1gcq3cYnetY", type: "standard" },
+            { id: 2, title: "Normativas Seguros – Demo", category: "IA & ML", description: "Asistente inteligente para lectura automática de actualizaciones normativas. Identifica puntos importantes, analiza modificaciones legislativas y facilita el seguimiento de cambios en leyes de seguros.", tags: ["IA", "HTML", "GitHub", "NLP", "Automatización"], icon: "⚖️", link: "https://adrianajoa18-bot.github.io/normativas-demo/", type: "standard" },
+            { id: 3, title: "Modelo Predictivo con IA", category: "IA & ML", description: "Modelo de machine learning para predecir riesgo crediticio usando Random Forest y XGBoost con precisión del 87%.", tags: ["Python", "Scikit-learn", "Machine Learning", "IA"], icon: "🤖", link: "https://github.com/tu-usuario/proyecto-ia", type: "standard" },
+            { id: 4, title: "Automatización de Reportes", category: "Productividad", description: "Sistema automatizado en Python para generar reportes semanales, ahorrando 10 horas de trabajo manual por mes.", tags: ["Python", "Automatización", "Pandas", "Excel"], icon: "⚡", link: "https://github.com/tu-usuario/automatizacion", type: "standard" },
+            { id: 5, title: "Análisis de Ventas con Power BI", category: "Power BI", description: "Dashboard interactivo para análisis de ventas con KPIs dinámicos y visualizaciones avanzadas.", tags: ["Power BI", "DAX", "Visualización"], icon: "📈", link: "", type: "standard" },
+            { id: 6, title: "Base de Datos SQL", category: "SQL", description: "Diseño e implementación de base de datos relacional para gestión de clientes y cobranzas.", tags: ["SQL Server", "Azure", "Database Design"], icon: "🗄️", link: "", type: "standard" },
+            { id: 7, title: "Chatbot con IA", category: "IA & ML", description: "Asistente virtual desarrollado con procesamiento de lenguaje natural para atención al cliente automatizada.", tags: ["Python", "NLP", "IA", "OpenAI"], icon: "💬", link: "https://github.com/tu-usuario/chatbot-ia", type: "standard" }
+        ];
+
+        /* Contact information is stored in this object and rendered dynamically. */
+        let contactInfo = {
+            email: "jessica-ojedaarenas@outlook.com",
+            phone: "+54 11 2824‑9890",
+            linkedin: "Jessica Adriana Ojeda Arenas",
+            linkedinUrl: "https://www.linkedin.com/in/jessica-adriana-ojeda-arenas",
+            location: "Tablada, Buenos Aires"
+        };
+
+        // Render contact cards
+        function renderContact() {
+            document.getElementById('contactGrid').innerHTML = `
+                <div class="contact-item"><div class="contact-icon">📧</div><div class="contact-info"><strong>Email</strong><br><a href="mailto:${contactInfo.email}" style="color: inherit; text-decoration: none;">${contactInfo.email}</a></div></div>
+                <div class="contact-item"><div class="contact-icon">📱</div><div class="contact-info"><strong>Teléfono</strong><br><a href="tel:${contactInfo.phone}" style="color: inherit; text-decoration: none;">${contactInfo.phone}</a></div></div>
+                <div class="contact-item"><div class="contact-icon">💼</div><div class="contact-info"><strong>LinkedIn</strong><br><a href="${contactInfo.linkedinUrl}" target="_blank" style="color: var(--accent); text-decoration: none;">${contactInfo.linkedin}</a></div></div>
+                <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-info"><strong>Ubicación</strong><br>${contactInfo.location}</div></div>
+            `;
+        }
+
+        // Render projects grid
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = '';
+            projects.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                let fileBadge = '', linkButton = '', viewButton = '';
+                if (project.type === 'excel') {
+                    fileBadge = '<span class="tag">📊 Excel interactivo</span>';
+                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Dashboard</button>`;
+                } else if (project.type === 'webpage') {
+                    fileBadge = '<span class="tag">🌐 Página Web</span>';
+                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Página</button>`;
+                } else if (project.type === 'powerbi') {
+                    fileBadge = '<span class="tag">📊 Power BI</span>';
+                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Reporte</button>`;
+                }
+                if (project.link && project.link.trim() !== '') {
+                    linkButton = `<a href="${project.link}" target="_blank" class="view-project-btn" style="margin-left: 0.5rem;">🔗 Ver Proyecto</a>`;
+                }
+                card.innerHTML = `
+                    <div class="project-image">${project.icon || '📁'}</div>
+                    <div class="project-content">
+                        <div class="project-category">${project.category}</div>
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        ${fileBadge}
+                        <div class="project-tags">${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+                        <div style="margin-top: 0.8rem;">
+                            ${viewButton || ''}
+                            ${linkButton}
+                        </div>
+                        <div style="margin-top: 0.8rem;">
+                            <button class="edit-btn" onclick="editProject(${project.id})">Editar</button>
+                            <button class="delete-btn" onclick="deleteProject(${project.id})">Eliminar</button>
+                            ${project.fileData ? `<button class="download-btn" onclick="downloadFile(${project.id})">Descargar</button>` : ''}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Toggle file upload fields depending on project type
+        function toggleFileUpload() {
+            const type = document.getElementById('projectType').value;
+            const fileGroup = document.getElementById('fileUploadGroup');
+            const embedGroup = document.getElementById('embedLinkGroup');
+            if (type === 'excel' || type === 'webpage') {
+                fileGroup.style.display = 'block';
+                embedGroup.style.display = 'none';
+                document.getElementById('projectFile').accept = type === 'excel' ? '.xlsx,.xls' : '.html,.htm';
+            } else if (type === 'powerbi') {
+                fileGroup.style.display = 'none';
+                embedGroup.style.display = 'block';
+            } else {
+                fileGroup.style.display = 'none';
+                embedGroup.style.display = 'none';
+            }
+        }
+
+        // Add new project from modal
+        function addProject(event) {
+            event.preventDefault();
+            const newProject = {
+                id: Date.now(),
+                title: document.getElementById('projectTitle').value,
+                category: document.getElementById('projectCategory').value,
+                description: document.getElementById('projectDescription').value,
+                tags: document.getElementById('projectTags').value.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
+                icon: document.getElementById('projectIcon').value || '📁',
+                link: document.getElementById('projectLink').value || '',
+                type: document.getElementById('projectType').value
+            };
+            const fileInput = document.getElementById('projectFile');
+            const embedLink = document.getElementById('embedLink').value;
+            if ((newProject.type === 'excel' || newProject.type === 'webpage') && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newProject.fileData = e.target.result;
+                    newProject.fileName = file.name;
+                    projects.unshift(newProject);
+                    renderProjects();
+                    closeModal();
+                    document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+                };
+                reader.readAsDataURL(file);
+            } else if (newProject.type === 'powerbi' && embedLink) {
+                newProject.embedLink = embedLink;
+                projects.unshift(newProject);
+                renderProjects();
+                closeModal();
+                document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                projects.unshift(newProject);
+                renderProjects();
+                closeModal();
+                document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Edit project: prefill modal with project data
+        function editProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+            // Prefill fields
+            document.getElementById('projectTitle').value = project.title;
+            document.getElementById('projectCategory').value = project.category;
+            document.getElementById('projectDescription').value = project.description;
+            document.getElementById('projectTags').value = project.tags.join(', ');
+            document.getElementById('projectIcon').value = project.icon;
+            document.getElementById('projectLink').value = project.link || '';
+            document.getElementById('projectType').value = project.type || 'standard';
+            document.getElementById('embedLink').value = project.embedLink || '';
+            toggleFileUpload();
+            // Remove from list while editing
+            projects = projects.filter(p => p.id !== id);
+            openModal();
+        }
+
+        // Delete project
+        function deleteProject(id) {
+            if (confirm('¿Estás segura de eliminar este proyecto?')) {
+                projects = projects.filter(p => p.id !== id);
+                renderProjects();
+            }
+        }
+
+        // View project preview
+        function viewProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+            document.getElementById('previewTitle').textContent = project.title;
+            const body = document.getElementById('previewBody');
+            body.innerHTML = '';
+            if (project.type === 'excel' && project.fileData) {
+                body.innerHTML = `<div style="padding: 1rem;"><h3>📊 Dashboard de Excel</h3><p>Descargá el archivo para ver el dashboard completo.</p><p><strong>Archivo:</strong> ${project.fileName}</p><button onclick="downloadFile(${id})" class="view-project-btn">📥 Descargar Excel</button></div>`;
+            } else if (project.type === 'webpage' && project.fileData) {
+                const blob = dataURItoBlob(project.fileData);
+                const url = URL.createObjectURL(blob);
+                body.innerHTML = `<iframe style="width:100%;height:80vh;border:none;" src="${url}"></iframe>`;
+            } else if (project.type === 'powerbi' && project.embedLink) {
+                body.innerHTML = `<iframe style="width:100%;height:80vh;border:none;" src="${project.embedLink}"></iframe>`;
+            }
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function closePreview() {
+            document.getElementById('previewModal').classList.remove('active');
+        }
+
+        function downloadFile(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project || !project.fileData) return;
+            const link = document.createElement('a');
+            link.href = project.fileData;
+            link.download = project.fileName || 'archivo';
+            link.click();
+        }
+
+        // Helpers
+        function dataURItoBlob(dataURI) {
+            const byteString = atob(dataURI.split(',')[1]);
+            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+            return new Blob([ab], { type: mimeString });
+        }
+
+        // Modals open/close
+        function openModal() {
+            document.getElementById('projectModal').classList.add('active');
+            document.getElementById('projectForm').reset();
+            toggleFileUpload();
+        }
+        function closeModal() {
+            document.getElementById('projectModal').classList.remove('active');
+        }
+        // Contact modal
+        function openContactModal() {
+            document.getElementById('contactEmail').value = contactInfo.email;
+            document.getElementById('contactPhone').value = contactInfo.phone;
+            document.getElementById('contactLinkedin').value = contactInfo.linkedin;
+            document.getElementById('contactLinkedinUrl').value = contactInfo.linkedinUrl;
+            document.getElementById('contactLocation').value = contactInfo.location;
+            document.getElementById('contactModal').classList.add('active');
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('active');
+        }
+        function updateContact(event) {
+            event.preventDefault();
+            contactInfo.email = document.getElementById('contactEmail').value;
+            contactInfo.phone = document.getElementById('contactPhone').value;
+            contactInfo.linkedin = document.getElementById('contactLinkedin').value;
+            contactInfo.linkedinUrl = document.getElementById('contactLinkedinUrl').value;
+            contactInfo.location = document.getElementById('contactLocation').value;
+            renderContact();
+            closeContactModal();
+            alert('✅ Información de contacto actualizada correctamente');
+        }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            const modals = [document.getElementById('projectModal'), document.getElementById('previewModal'), document.getElementById('contactModal')];
+            modals.forEach(modal => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Show nav bar after scrolling a bit
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            nav.style.display = window.scrollY > 100 ? 'block' : 'none';
+        });
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProjects();
+            renderContact();
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
