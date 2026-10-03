@@ -1,2 +1,3 @@
 # Datos pesados: se regeneran con notebooks/00_descargar_datos.py
 proyectos/tarificacion-seguros-auto/datos/
+proyectos/tarificacion-seguros-auto/power-bi/predicciones_muestra.csv
