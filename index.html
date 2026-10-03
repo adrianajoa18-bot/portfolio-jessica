@@ -1,1130 +1,368 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jessica Ojeda Arenas – Portfolio</title>
-    <!-- Google fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-    <style>
-        /*
-         * Global resets
-         */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        /*
-         * Colour palette
-         *
-         * The colours defined here are slightly toned down to convey a more
-         * polished, international look. Feel free to adjust them to taste.
-         */
-        :root {
-            --primary: #0d253f;       /* deep navy for headings and text */
-            --secondary: #e67e22;    /* warm accent for highlights */
-            --accent: #2980b9;       /* corporate blue for interactive elements */
-            --light: #f7f9fc;        /* very light grey background */
-            --dark: #0c1a2a;         /* almost black for footers and cards */
-            /*
-             * Updated gradient for a more polished, corporate feel. The deep
-             * navy and muted teal tones convey professionalism without
-             * overpowering the content. Feel free to adjust these values
-             * slightly to suit your personal brand.
-             */
-            --gradient: linear-gradient(135deg, #0a3d62 0%, #3c6382 100%);
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--light);
-            color: var(--primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        /*
-         * Navigation bar
-         *
-         * The navigation bar floats at the top of the page and uses a semi‑transparent
-         * backdrop. A small circular logo sits on the left followed by the menu.
-         */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
-            padding: 1rem 2rem;
-            display: none; /* shown on scroll via JS */
-        }
-        .navbar-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .navbar-container img.logo {
-            height: 50px;
-            width: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 1rem;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-        nav a {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: var(--accent);
-        }
-        /*
-         * Hero section
-         *
-         * A full‑height banner with a soft gradient and a subtle moving grid. The
-         * text uses a serif font for your name paired with a sans‑serif subtitle.
-         */
-        .hero {
-            /*
-             * The hero section uses the gradient defined above as its
-             * background. The simplified design focuses attention on your
-             * name and tagline while still providing a rich, modern feel.
-             */
-            min-height: 100vh;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-content {
-            text-align: center;
-            color: white;
-            z-index: 1;
-            padding: 2rem;
-            animation: fadeInUp 1.5s ease-out;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-        .hero .subtitle {
-            font-size: 1.3rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: white;
-            color: var(--primary);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin: 0.5rem;
-        }
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        /* Section layout */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--gradient);
-            margin: 1rem auto;
-            border-radius: 2px;
-        }
-        /* About section */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-        .profile-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 20px;
-            /* A softer shadow and no float animation for a more formal feel */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        /* Removed floating animation for the profile image to convey a more
-         * professional and minimalist aesthetic. If you wish to reintroduce
-         * motion, consider subtle scroll-based effects instead of continuous
-         * bouncing.
-         */
-        .about-content h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--secondary);
-        }
-        .about-content p {
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            line-height: 1.8;
-        }
-        /* Skills section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        .skill-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .skill-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        .skill-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .skill-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        /* Projects section */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .project-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-        }
-        .project-image {
-            width: 100%;
-            height: 200px;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-        }
-        .project-content {
-            padding: 1.5rem;
-        }
-        .project-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .project-category {
-            color: var(--accent);
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-        .project-description {
-            color: #555;
-            line-height: 1.5;
-        }
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        .tag {
-            background: var(--light);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: var(--primary);
-        }
-        /* Buttons */
-        .view-project-btn, .edit-btn, .delete-btn, .download-btn {
-            display: inline-block;
-            cursor: pointer;
-            padding: 0.6rem 1.2rem;
-            font-size: 0.9rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .view-project-btn {
-            background: var(--gradient);
-            color: white;
-            margin-top: 0.5rem;
-        }
-        .view-project-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .edit-btn {
-            background: var(--accent);
-            color: white;
-            margin-right: 0.5rem;
-        }
-        .edit-btn:hover {
-            background: var(--primary);
-        }
-        .delete-btn {
-            background: var(--secondary);
-            color: white;
-        }
-        .delete-btn:hover {
-            background: #c0392b;
-        }
-        .download-btn {
-            background: #27ae60;
-            color: white;
-        }
-        .download-btn:hover {
-            background: #229954;
-        }
-        /* Floating add button */
-        .add-project-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 55px;
-            height: 55px;
-            background: var(--gradient);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-        .add-project-btn:hover {
-            transform: scale(1.1) rotate(90deg);
-        }
-        /* Modal styling */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .modal-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #999;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.7rem;
-            border: 2px solid var(--light);
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        .submit-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--gradient);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-        /* Contact section */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-        .contact-item {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        }
-        .contact-icon {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-            color: var(--accent);
-        }
-        .contact-info {
-            font-size: 1rem;
-        }
-        /* Experience timeline */
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
-        }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--gradient);
-        }
-        .timeline-item {
-            display: flex;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-        .timeline-item:nth-child(odd) {
-            flex-direction: row;
-        }
-        .timeline-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-        .timeline-content {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            width: 45%;
-        }
-        .timeline-date {
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 0.3rem;
-        }
-        .timeline-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-        .timeline-company {
-            color: var(--secondary);
-            margin-bottom: 0.8rem;
-        }
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-        }
-        footer p {
-            font-size: 0.9rem;
-        }
-        /* Responsiveness */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .hero .subtitle {
-                font-size: 1rem;
-            }
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-            .timeline::before {
-                left: 0;
-            }
-            .timeline-content {
-                width: 100%;
-            }
-            .timeline-item {
-                flex-direction: column !important;
-            }
-            .navbar-container ul {
-                gap: 1rem;
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jessica Ojeda Arenas – Portfolio</title>
+<meta name="description" content="Estudiante de Actuario (UBA). Análisis de datos y ciencia de datos aplicada a seguros: SQL, Python, Power BI, Excel y modelos actuariales.">
+<meta property="og:title" content="Jessica Ojeda Arenas – Portfolio">
+<meta property="og:description" content="Ciencia actuarial + datos: SQL, Python, Power BI y modelos de tarificación.">
+<meta property="og:image" content="https://adrianajoa18-bot.github.io/portfolio-jessica/assets/foto-jessica.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/foto-jessica.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/proyecto.css">
+<style>
+  /* Navegación */
+  .nav-links { display: flex; gap: 1.4rem; list-style: none; }
+  .nav-links a { font-size: 0.92rem; }
+  .nav-links a:hover { color: var(--azul); }
+  .menu-btn { display: none; background: none; border: 1px solid var(--borde); border-radius: 8px; padding: 6px 10px; font-size: 1.1rem; cursor: pointer; color: var(--navy); }
+  @media (max-width: 860px) {
+    .menu-btn { display: block; }
+    .nav-links { display: none; position: absolute; top: 60px; left: 0; right: 0; flex-direction: column; gap: 0; background: #fff; border-bottom: 1px solid var(--borde); padding: 8px 20px 14px; }
+    .nav-links.abierto { display: flex; }
+    .nav-links a { display: block; padding: 10px 0; }
+  }
+
+  /* Hero */
+  .hero { background: linear-gradient(135deg, #0a3d62 0%, #3c6382 100%); color: #fff; padding: 72px 0 80px; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+  .hero .wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; position: relative; z-index: 1; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.3rem, 6vw, 3.8rem); line-height: 1.05; margin-bottom: 14px; }
+  .hero .rol { font-size: 1.15rem; font-weight: 500; opacity: 0.95; margin-bottom: 18px; }
+  .hero .rol strong { color: #ffc48a; }
+  .hero p.bajada { max-width: 560px; opacity: 0.88; }
+  .foto { justify-self: center; width: min(300px, 70vw); aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 6px solid rgba(255,255,255,0.18); box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+  .foto img { width: 100%; height: 100%; object-fit: cover; }
+  .hero .datos { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 30px; }
+  .hero .datos div { font-size: 0.85rem; opacity: 0.85; }
+  .hero .datos strong { display: block; font-size: 1.4rem; opacity: 1; }
+  @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; text-align: left; } .foto { order: -1; justify-self: start; width: 150px; } }
+
+  /* Proyectos */
+  .proyecto { display: flex; flex-direction: column; overflow: hidden; padding: 0; transition: transform 0.2s, box-shadow 0.2s; }
+  .proyecto:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(13,37,63,0.12); }
+  .proyecto .portada { height: 150px; display: grid; place-items: center; color: #fff; position: relative; }
+  .proyecto .portada svg { width: 72%; height: 70%; }
+  .proyecto .cuerpo { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .proyecto .cat { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--acento); margin-bottom: 6px; }
+  .proyecto h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .proyecto p { color: var(--suave); font-size: 0.92rem; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 16px; }
+  .tags span { font-size: 0.75rem; background: #eef3f9; color: var(--navy-2); padding: 3px 10px; border-radius: 999px; font-weight: 500; }
+  .acciones { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-o { display: inline-block; padding: 8px 16px; border-radius: 10px; font-weight: 600; font-size: 0.88rem; text-decoration: none; border: 2px solid var(--navy-2); color: var(--navy-2); }
+  .btn-o.lleno { background: var(--navy-2); color: #fff; }
+  .btn-o:hover { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .destacado { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.2fr; }
+  .destacado .portada { height: auto; min-height: 260px; }
+  .destacado .badge { position: absolute; top: 16px; left: 16px; background: var(--acento); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+  .destacado h3 { font-size: 1.45rem; }
+  .logros { list-style: none; margin: 12px 0 0; display: grid; gap: 6px; font-size: 0.9rem; }
+  .logros li::before { content: '✓'; color: var(--ok); font-weight: 700; margin-right: 8px; }
+  @media (max-width: 760px) { .destacado { grid-template-columns: 1fr; } .destacado .portada { min-height: 170px; } }
+
+  /* Habilidades */
+  .skill h3 { display: flex; align-items: center; gap: 10px; }
+  .skill .ico { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: #eef3f9; font-size: 1.1rem; }
+  .skill ul { list-style: none; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill li { font-size: 0.85rem; border: 1px solid var(--borde); border-radius: 8px; padding: 4px 10px; }
+
+  /* Experiencia */
+  .tl { position: relative; padding-left: 30px; }
+  .tl::before { content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: var(--borde); }
+  .tl-item { position: relative; margin-bottom: 18px; }
+  .tl-item::before { content: ''; position: absolute; left: -27px; top: 26px; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid var(--navy-2); }
+  .tl-item.actual::before { background: var(--acento); border-color: var(--acento); }
+  .tl-item .fecha { font-size: 0.82rem; font-weight: 600; color: var(--acento); }
+  .tl-item .org { color: var(--suave); font-weight: 500; margin-bottom: 8px; }
+  .tl-item ul { padding-left: 1.1rem; color: var(--texto); font-size: 0.92rem; }
+  .tl-item li { margin-bottom: 4px; }
+
+  /* Formación */
+  .curso { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--borde); }
+  .curso:last-child { border-bottom: none; }
+  .curso .n { font-weight: 600; font-size: 0.95rem; }
+  .curso .i { color: var(--suave); font-size: 0.85rem; }
+  .curso .f { color: var(--suave); font-size: 0.82rem; white-space: nowrap; text-align: right; }
+  .en-curso { display: inline-block; font-size: 0.7rem; font-weight: 600; background: #e6f4ea; color: var(--ok); padding: 1px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+
+  /* Contacto */
+  .contacto { background: linear-gradient(135deg, #0a3d62 0%, #3c6382 100%); color: #fff; border-radius: 20px; padding: 40px 32px; margin-top: 48px; }
+  .contacto h2 { color: #fff; }
+  .contacto p { opacity: 0.88; max-width: 620px; }
+  .contacto .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+  .contacto a { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); color: #fff; padding: 10px 16px; border-radius: 10px; text-decoration: none; font-weight: 500; font-size: 0.92rem; }
+  .contacto a:hover { background: rgba(255,255,255,0.22); }
+  .contacto svg { width: 18px; height: 18px; flex: none; }
+</style>
 </head>
 <body>
-    <!-- Navigation bar: initially hidden, displayed when the user scrolls -->
-    <nav id="navbar">
-        <div class="navbar-container">
-            <div style="display:flex;align-items:center;">
-                <img src="logo.png" alt="Logo" class="logo">
-                <strong style="font-size:1.2rem;margin-left:0.5rem;">Jessica Ojeda</strong>
-            </div>
-            <ul>
-                <li><a href="#home">Inicio</a></li>
-                <li><a href="#about">Sobre Mí</a></li>
-                <li><a href="#skills">Habilidades</a></li>
-                <li><a href="#projects">Proyectos</a></li>
-                <li><a href="#experience">Experiencia</a></li>
-                <li><a href="#contact">Contacto</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- Hero / landing section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Jessica Ojeda Arenas</h1>
-            <p class="subtitle">Estudiante avanzada de Actuario • Data Science &amp; Analytics</p>
-            <div>
-                <a href="#projects" class="cta-button">Ver Proyectos</a>
-                <a href="#contact" class="cta-button">Contacto</a>
-            </div>
-        </div>
-    </section>
+<nav class="topbar"><div class="wrap">
+  <a class="marca" href="#inicio">Jessica Ojeda</a>
+  <button class="menu-btn" aria-label="Abrir menú" onclick="document.querySelector('.nav-links').classList.toggle('abierto')">☰</button>
+  <ul class="nav-links" onclick="this.classList.remove('abierto')">
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#habilidades">Habilidades</a></li>
+    <li><a href="#experiencia">Experiencia</a></li>
+    <li><a href="#formacion">Formación</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</div></nav>
 
-    <!-- About section -->
-    <section id="about">
-        <h2 class="section-title">Sobre Mí</h2>
-        <div class="about-grid">
-            <div>
-                <!-- Foto de perfil: imagen de alta resolución -->
-                <img src="profile.png" alt="Foto de perfil" class="profile-image">
-            </div>
-            <div class="about-content">
-                <h3>¡Hola! 👋</h3>
-                <p>Soy estudiante avanzada de Actuario en la Universidad de Buenos Aires con una profunda pasión por la ciencia de datos y el análisis.</p>
-                <p>Busco oportunidades para desarrollarme profesional y personalmente, donde pueda aportar mi determinación, ganas de aprender y compromiso con cada proyecto. Me motivan los entornos que impulsan el crecimiento y presentan nuevos desafíos.</p>
-                <!-- Contact details removed from About; these are provided in the
-                     dedicated Contact section below to avoid repetition and keep
-                     the bio concise. -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills section -->
-    <section id="skills">
-        <h2 class="section-title">Habilidades Técnicas</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <div class="skill-icon">📊</div>
-                <div class="skill-name">Excel Avanzado</div>
-                <p>Análisis de datos, tablas dinámicas, macros</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">📈</div>
-                <div class="skill-name">Power BI</div>
-                <p>Visualización de datos y dashboards</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">🗄️</div>
-                <div class="skill-name">SQL Server</div>
-                <p>Consultas y gestión de bases de datos</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">📉</div>
-                <div class="skill-name">Tableau</div>
-                <p>Análisis visual y reportes interactivos</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">🐍</div>
-                <div class="skill-name">Python</div>
-                <p>Data science, Pandas, NumPy, scikit‑learn</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">🤖</div>
-                <div class="skill-name">IA &amp; Machine Learning</div>
-                <p>Modelos predictivos y análisis avanzado</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects section -->
-    <section id="projects">
-        <h2 class="section-title">Proyectos</h2>
-        <div class="projects-grid" id="projectsGrid">
-            <!-- Cards generated dynamically via JS -->
-        </div>
-    </section>
-
-    <!-- Experience section -->
-    <section id="experience">
-        <h2 class="section-title">Experiencia</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">03/2024 – 05/2025</div>
-                    <h3 class="timeline-title">Asistente Administrativa</h3>
-                    <div class="timeline-company">SOLUCRED</div>
-                    <p>Administración y mantenimiento de bases de datos de cobranza, actualización de cartera de clientes, validación de información y control documental.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">08/2025 – 12/2025</div>
-                    <h3 class="timeline-title">Programa Tu empleo – Liderazgo</h3>
-                    <div class="timeline-company">Fundación Empujar</div>
-                    <p>Liderazgo en el área de administración, organización y coordinación de equipo, gestión eficiente de tiempos y tareas.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">2023</div>
-                    <h3 class="timeline-title">Asistente de Recolección de Datos</h3>
-                    <div class="timeline-company">Ministerio de Trabajo (Pasantía)</div>
-                    <p>Participación en operativos territoriales para encuestas presenciales, verificación de datos y carga en sistema interno.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact section -->
-    <section id="contact">
-        <h2 class="section-title">Contacto</h2>
-        <div class="contact-grid" id="contactGrid"></div>
-        <div style="text-align: center; margin-top: 2rem;">
-            <button class="view-project-btn" onclick="openContactModal()">✏️ Editar Información de Contacto</button>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Jessica Ojeda Arenas. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Floating button to add new projects -->
-    <button class="add-project-btn" onclick="openModal()">+</button>
-
-    <!-- Project modal -->
-    <div class="modal" id="projectModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Agregar Proyecto</h2>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-            </div>
-            <form id="projectForm" onsubmit="addProject(event)">
-                <div class="form-group">
-                    <label for="projectTitle">Título del Proyecto</label>
-                    <input type="text" id="projectTitle" required>
-                </div>
-                <div class="form-group">
-                    <label for="projectCategory">Categoría</label>
-                    <select id="projectCategory" required>
-                        <option value="">Selecciona una categoría</option>
-                        <option value="Excel">Excel</option>
-                        <option value="Power BI">Power BI</option>
-                        <option value="SQL">SQL</option>
-                        <option value="Tableau">Tableau</option>
-                        <option value="Python">Python</option>
-                        <option value="IA & ML">IA & Machine Learning</option>
-                        <option value="Productividad">Productividad</option>
-                        <option value="Otro">Otro</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="projectDescription">Descripción</label>
-                    <textarea id="projectDescription" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="projectTags">Etiquetas (separadas por comas)</label>
-                    <input type="text" id="projectTags" placeholder="Python, Pandas, ML">
-                </div>
-                <div class="form-group">
-                    <label for="projectIcon">Ícono (emoji)</label>
-                    <input type="text" id="projectIcon" placeholder="📊" maxlength="2">
-                </div>
-                <div class="form-group">
-                    <label for="projectLink">Link del proyecto (opcional)</label>
-                    <input type="url" id="projectLink" placeholder="https://">
-                </div>
-                <div class="form-group">
-                    <label for="projectType">Tipo de Proyecto</label>
-                    <select id="projectType" onchange="toggleFileUpload()">
-                        <option value="standard">Estándar (solo descripción)</option>
-                        <option value="excel">Excel con Dashboard</option>
-                        <option value="webpage">Página Web/HTML</option>
-                        <option value="powerbi">Reporte Power BI (embed)</option>
-                        <!-- New option to allow uploading presentations -->
-                        <option value="ppt">Presentación PowerPoint</option>
-                    </select>
-                </div>
-                <div class="form-group" id="fileUploadGroup" style="display: none;">
-                    <label for="projectFile">Subir Archivo</label>
-                    <input type="file" id="projectFile" accept=".xlsx,.xls,.html,.htm">
-                    <small style="color: #666; font-size: 0.85rem;">Excel (.xlsx, .xls) o HTML (.html, .htm)</small>
-                </div>
-                <div class="form-group" id="embedLinkGroup" style="display: none;">
-                    <label for="embedLink">Link de Embed de Power BI</label>
-                    <input type="url" id="embedLink" placeholder="https://app.powerbi.com/view?r=...">
-                    <small style="color: #666; font-size: 0.85rem;">Pegá el link público de tu reporte</small>
-                </div>
-                <button type="submit" class="submit-btn">Agregar Proyecto</button>
-            </form>
-        </div>
+<header class="hero" id="inicio"><div class="wrap">
+  <div>
+    <h1>Jessica Ojeda Arenas</h1>
+    <p class="rol">Estudiante de Actuario (UBA) · <strong>Datos aplicados a seguros</strong></p>
+    <p class="bajada">Combino la base actuarial con herramientas de datos (SQL, Python, Power BI y Excel) para entender el riesgo,
+      medir resultados y transformar información en decisiones.</p>
+    <div class="botones">
+      <a class="btn lleno" href="#projects">Ver proyectos</a>
+      <a class="btn" href="https://www.linkedin.com/in/jessica-adriana-ojeda-arenas" target="_blank" rel="noopener">LinkedIn</a>
     </div>
-
-    <!-- Preview modal -->
-    <div class="modal" id="previewModal">
-        <div class="modal-content" style="width: 95%; max-width: 900px; height: 90%; max-height: 90%; border-radius: 15px;">
-            <div class="modal-header">
-                <h2 id="previewTitle">Vista Previa</h2>
-                <button class="close-modal" onclick="closePreview()">&times;</button>
-            </div>
-            <div id="previewBody" style="flex: 1; overflow:auto;"></div>
-        </div>
+    <div class="datos">
+      <div><strong>678 mil</strong>pólizas modeladas</div>
+      <div><strong>175</strong>aseguradoras analizadas</div>
+      <div><strong>4</strong>proyectos publicados</div>
     </div>
+  </div>
+  <div class="foto"><img src="assets/foto-jessica.jpg" alt="Foto de Jessica Ojeda Arenas"></div>
+</div></header>
 
-    <!-- Contact edit modal -->
-    <div class="modal" id="contactModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Editar Contacto</h2>
-                <button class="close-modal" onclick="closeContactModal()">&times;</button>
-            </div>
-            <form id="contactForm" onsubmit="updateContact(event)">
-                <div class="form-group">
-                    <label for="contactEmail">Email</label>
-                    <input type="email" id="contactEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="contactPhone">Teléfono</label>
-                    <input type="tel" id="contactPhone" required>
-                </div>
-                <div class="form-group">
-                    <label for="contactLinkedin">Nombre en LinkedIn</label>
-                    <input type="text" id="contactLinkedin" required>
-                </div>
-                <div class="form-group">
-                    <label for="contactLinkedinUrl">URL de LinkedIn</label>
-                    <input type="url" id="contactLinkedinUrl" placeholder="https://www.linkedin.com/in/tu-perfil" required>
-                    <small style="color: #666; font-size: 0.85rem;">Pegá el link completo de tu perfil de LinkedIn</small>
-                </div>
-                <div class="form-group">
-                    <label for="contactLocation">Ubicación</label>
-                    <input type="text" id="contactLocation" required>
-                </div>
-                <button type="submit" class="submit-btn">Guardar Cambios</button>
-            </form>
-        </div>
+<main class="wrap">
+
+<section id="sobre-mi">
+  <h2>Sobre mí</h2>
+  <div class="grid g2">
+    <div class="card">
+      <p>Soy estudiante de <strong>Actuario en la Facultad de Ciencias Económicas de la UBA</strong> y actualmente hago una pasantía en el área de
+        <strong>Gobierno, Sostenibilidad y Estrategia de Zurich Santander</strong>.</p>
+      <p style="margin-top:12px">Me apasiona el cruce entre el mundo asegurador y los datos: cómo se mide el riesgo, cómo se fija un precio justo y
+        cómo se cuenta una historia clara con números. Me estoy formando en Data Science, SQL Server y Python, y cada proyecto de este portfolio
+        es una forma de aplicar lo que aprendo a problemas reales del sector.</p>
     </div>
+    <div class="card">
+      <h3>Lo que busco</h3>
+      <p class="nota" style="margin-top:0;font-size:0.95rem">Oportunidades en análisis de datos, riesgos o actuarial dentro del sector asegurador o financiero,
+        donde pueda aportar determinación, ganas de aprender y compromiso con cada proyecto.</p>
+      <h3 style="margin-top:16px">Idiomas</h3>
+      <p class="nota" style="margin-top:0;font-size:0.95rem">Español nativo · Inglés intermedio (Instituto Lincoln)</p>
+      <h3 style="margin-top:16px">Ubicación</h3>
+      <p class="nota" style="margin-top:0;font-size:0.95rem">Tablada, Buenos Aires, Argentina</p>
+    </div>
+  </div>
+</section>
 
-    <script>
-        /*
-         * Portfolio configuration
-         *
-         * The projects array defines the projects that appear in the grid. Each project
-         * has an id, title, category, description, tags, icon and optional link/file.
-         * Feel free to edit or extend this list; the UI will update automatically.
-         */
-/*// let projects = [
-            // { id: 1, title: "Dashboard Mercado Financiero – Análisis Técnico", category: "Excel", description: "Dashboard interactivo de análisis del mercado financiero argentino con análisis técnico integrado. Incluye KPIs, gráficos dinámicos, tablas pivote y visualizaciones automatizadas para seguimiento de indicadores económicos.", tags: ["Excel", "Dashboard", "Análisis Financiero", "Análisis Técnico", "Macros"], icon: "💹", link: "https://drive.google.com/uc?export=download&id=1BWa6hFNmix_OS0FT2vqeW1gcq3cYnetY", type: "standard" },
-            // { id: 2, title: "Normativas Seguros – Demo", category: "IA & ML", description: "Asistente inteligente para lectura automática de actualizaciones normativas. Identifica puntos importantes, analiza modificaciones legislativas y facilita el seguimiento de cambios en leyes de seguros.", tags: ["IA", "HTML", "GitHub", "NLP", "Automatización"], icon: "⚖️", link: "https://adrianajoa18-bot.github.io/normativas-demo/", type: "standard" },
-           // { id: 3, title: "Modelo Predictivo con IA", category: "IA & ML", description: "Modelo de machine learning para predecir riesgo crediticio usando Random Forest y XGBoost con precisión del 87%.", tags: ["Python", "Scikit-learn", "Machine Learning", "IA"], icon: "🤖", link: "https://github.com/tu-usuario/proyecto-ia", type: "standard" },
-           // {// id: 4, title: "Automatización de Reportes", category: "Productividad", description: "Sistema automatizado en Python para generar reportes semanales, ahorrando 10 horas de trabajo manual por mes.", tags: ["Python", "Automatización", "Pandas", "Excel"], icon: "⚡", link: "https://github.com/tu-usuario/automatizacion", type: "standard" },
-            // { id: 5, title: "Análisis de Ventas con Power BI", category: "Power BI", description: "Dashboard interactivo para análisis de ventas con KPIs dinámicos y visualizaciones avanzadas.", tags: ["Power BI", "DAX", "Visualización"], icon: "📈", link: "", type: "standard" },
-            // { id: 6, title: "Base de Datos SQL", category: "SQL", description: "Diseño e implementación de base de datos relacional para gestión de clientes y cobranzas.", tags: ["SQL Server", "Azure", "Database Design"], icon: "🗄️", link: "", type: "standard" },
-           // { id: 7, title: "Chatbot con IA", category: "IA & ML", description: "Asistente virtual desarrollado con procesamiento de lenguaje natural para atención al cliente automatizada.", tags: ["Python", "NLP", "IA", "OpenAI"], icon: "", link: "https://github.com/tu-usuario/chatbot-ia", type: "standard" },
-    // { id: 8, title: "Análisis de Sostenibilidad", category: "Reporte", description: "Análisis de sostenibilidad a lo largo de los años, identificando KPIs, inversiones y personas impactadas.", tags: ["Sostenibilidad", "ESG", "RSE"], icon: "", link: "https://docs.google.com/presentation/d/1_IY-QUaUYbGtxagXiGKMv0nQdtTRK9WL/edit?usp=sharing&ouid=110417761211496131863&rtpof=true&sd=true", type: "standard" }
-*/
-// ];
-            
-        // // projects = projects.filter(project => [1, 2, 8].includes(project.id));];
-        projects = [
-  {
-    id: 1,
-    title: "Dashboard Mercado Financiero – Análisis Técnico",
-    category: "Excel",
-    description: "Dashboard interactivo de análisis del mercado financiero argentino con análisis técnico integrado.",
-    tags: ["Excel", "Power Query", "Dashboard"],
-    icon: "💹",
-    link: "https://raw.githubusercontent.com/adrianajoa18-bot/portfolio-jessica/main/Dashboard%20Jessica%20Ojeda%20FINAL1.xlsb",
-    type: "standard"
-  },
-  {
-    id: 2,
-    title: "Normativas Seguros – Demo",
-    category: "IA & ML",
-    description: "Asistente inteligente para lectura automática de actualizaciones normativas.",
-    tags: ["HTML", "GitHub", "NLP", "Automatización"],
-    icon: "⚖️",
-    link: "https://adrianajoa18-bot.github.io/normativas-demo/",
-    type: "standard"
-  },
-  {
-    id: 8,
-    title: "Análisis de Sostenibilidad",
-    category: "Reporte",
-    description: "Análisis de sostenibilidad a lo largo de los años, identificando KPIs, inversiones y personas impactadas.",
-    tags: ["Sostenibilidad", "ESG", "Reporte"],
-    icon: "📑",
-    link: "https://raw.githubusercontent.com/adrianajoa18-bot/portfolio-jessica/main/Presentaci%C3%B3n%20de%20Sostenibilidad-%20Jessica%20Ojeda.pptx",
-    type: "standard"
-  }
-];
-    // Update project links to point to local files
-    projects.find(p => p.id === 1).link = "dashboard_mercado_financiero.html";
-    projects.find(p => p.id === 8).link = "sustainability_analysis.md";
-        projects.find(p => p.id === 1).link = "https://drive.google.com/file/d/1BWa6hFNmix_OS0FT2vqeW1gcq3cYnetY/view?usp=sharing";
-projects.find(p => p.id === 8).link = "https://docs.google.com/presentation/d/1_IY-QUaUYbGtxagXiGKMv0nQdtTRK9WL/edit?usp=sharing&ouid=110417761211496131863&rtpof=true&sd=true";
+<section id="projects">
+  <h2>Proyectos</h2>
+  <p class="intro">Cada proyecto tiene su propia página interactiva: se puede explorar sin descargar nada.</p>
+  <div class="grid g2">
 
-;
-        projects.find(p => p.id === 1).link = "Dashboard%20Jessica%20Ojeda%20FINAL1.xlsb";
-projects.find(p => p.id === 8).link = "https://docs.google.com/presentation/d/1_IY-QUaUYbGtxagXiGKMv0nQdtTRK9WL/edit?slide=id.p1#slide=id.p1";
+    <article class="card proyecto destacado">
+      <div class="portada" style="background:linear-gradient(135deg,#0a3d62,#2b6cb0)">
+        <span class="badge">Proyecto destacado</span>
+        <svg viewBox="0 0 200 110" fill="none" aria-hidden="true">
+          <rect x="10" y="62" width="18" height="38" rx="3" fill="rgba(255,255,255,.35)"/>
+          <rect x="36" y="48" width="18" height="52" rx="3" fill="rgba(255,255,255,.35)"/>
+          <rect x="62" y="70" width="18" height="30" rx="3" fill="rgba(255,255,255,.35)"/>
+          <rect x="88" y="40" width="18" height="60" rx="3" fill="rgba(255,255,255,.35)"/>
+          <rect x="114" y="28" width="18" height="72" rx="3" fill="rgba(255,255,255,.35)"/>
+          <rect x="140" y="16" width="18" height="84" rx="3" fill="rgba(255,255,255,.35)"/>
+          <path d="M19 66 L45 52 L71 60 L97 42 L123 30 L149 12" stroke="#ffc48a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="149" cy="12" r="6" fill="#ffc48a"/>
+        </svg>
+      </div>
+      <div class="cuerpo">
+        <div class="cat">Ciencia actuarial + Data Science</div>
+        <h3>Tarificación de seguros de auto con datos</h3>
+        <p>¿Cuánto debería pagar cada cliente según su riesgo? Con 678.000 pólizas reales, estimé la prima pura combinando un GLM actuarial
+          con un modelo de machine learning, y armé un tablero con una calculadora de primas.</p>
+        <ul class="logros">
+          <li>Base de datos y análisis exploratorio en SQL</li>
+          <li>GLM Poisson y Gamma vs. Gradient Boosting, validados con datos de prueba</li>
+          <li>Tarifa equilibrada y explicable, con tratamiento de siniestros grandes</li>
+        </ul>
+        <div class="tags"><span>SQL</span><span>Python</span><span>statsmodels</span><span>scikit-learn</span><span>GLM</span></div>
+        <div class="acciones">
+          <a class="btn-o lleno" href="proyectos/tarificacion-seguros-auto/">Ver proyecto</a>
+          <a class="btn-o" href="https://github.com/adrianajoa18-bot/portfolio-jessica/tree/main/proyectos/tarificacion-seguros-auto" target="_blank" rel="noopener">Código</a>
+        </div>
+      </div>
+    </article>
 
+    <article class="card proyecto">
+      <div class="portada" style="background:linear-gradient(135deg,#7b341e,#e67e22)">
+        <svg viewBox="0 0 200 110" fill="none" aria-hidden="true">
+          <line x1="20" y1="95" x2="190" y2="95" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+          <line x1="20" y1="95" x2="20" y2="8" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+          <g fill="rgba(255,255,255,.85)"><circle cx="45" cy="70" r="5"/><circle cx="60" cy="55" r="5"/><circle cx="72" cy="66" r="5"/><circle cx="90" cy="48" r="5"/><circle cx="105" cy="60" r="5"/><circle cx="118" cy="40" r="5"/></g>
+          <g fill="#ffd8d8"><circle cx="140" cy="30" r="5"/><circle cx="160" cy="45" r="5"/><circle cx="175" cy="22" r="5"/></g>
+        </svg>
+      </div>
+      <div class="cuerpo">
+        <div class="cat">Excel · Análisis de mercado</div>
+        <h3>Indicadores de gestión del mercado asegurador argentino</h3>
+        <p>Análisis de siniestralidad, gastos y resultado de 175 aseguradoras con datos de la SSN (2024-2025): qué ramos son rentables,
+          un mapa de entidades y una ficha para buscar cada compañía.</p>
+        <div class="tags"><span>Excel</span><span>Power Query</span><span>Tablas dinámicas</span><span>Dashboard</span></div>
+        <div class="acciones">
+          <a class="btn-o lleno" href="proyectos/mercado-asegurador/">Ver proyecto</a>
+          <a class="btn-o" href="Dashboard%20Jessica%20Ojeda%20FINAL1.xlsb" download>Excel</a>
+        </div>
+      </div>
+    </article>
 
-        /* Contact information is stored in this object and rendered dynamically. */
-        let contactInfo = {
-            email: "jessica-ojedaarenas@outlook.com",
-            phone: "+54 11 2824‑9890",
-            linkedin: "Jessica Adriana Ojeda Arenas",
-            linkedinUrl: "https://www.linkedin.com/in/jessica-adriana-ojeda-arenas",
-            location: "Tablada, Buenos Aires"
-        };
+    <article class="card proyecto">
+      <div class="portada" style="background:linear-gradient(135deg,#22543d,#38a169)">
+        <svg viewBox="0 0 200 110" fill="none" aria-hidden="true">
+          <path d="M100 98 C100 70 100 50 100 30" stroke="rgba(255,255,255,.8)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M100 58 C80 58 62 46 58 24 C80 24 98 36 100 58Z" fill="rgba(255,255,255,.75)"/>
+          <path d="M100 44 C118 44 136 32 140 10 C118 10 102 22 100 44Z" fill="rgba(255,255,255,.55)"/>
+          <rect x="40" y="96" width="120" height="4" rx="2" fill="rgba(255,255,255,.4)"/>
+        </svg>
+      </div>
+      <div class="cuerpo">
+        <div class="cat">Reporte · ESG</div>
+        <h3>Análisis de sostenibilidad 2020–2023</h3>
+        <p>Relevamiento de los informes de sostenibilidad de una aseguradora regional: evolución de la inversión social, el voluntariado
+          y la gobernanza ESG, con recomendaciones para medir impacto.</p>
+        <div class="tags"><span>ESG</span><span>KPIs</span><span>Reportes GRI</span><span>PowerPoint</span></div>
+        <div class="acciones">
+          <a class="btn-o lleno" href="proyectos/sostenibilidad/">Ver proyecto</a>
+          <a class="btn-o" href="https://docs.google.com/presentation/d/1_IY-QUaUYbGtxagXiGKMv0nQdtTRK9WL/edit?usp=sharing" target="_blank" rel="noopener">Presentación</a>
+        </div>
+      </div>
+    </article>
 
-        // Render contact cards
-        function renderContact() {
-            document.getElementById('contactGrid').innerHTML = `
-                <div class="contact-item"><div class="contact-icon">📧</div><div class="contact-info"><strong>Email</strong><br><a href="mailto:${contactInfo.email}" style="color: inherit; text-decoration: none;">${contactInfo.email}</a></div></div>
-                <div class="contact-item"><div class="contact-icon">📱</div><div class="contact-info"><strong>Teléfono</strong><br><a href="tel:${contactInfo.phone}" style="color: inherit; text-decoration: none;">${contactInfo.phone}</a></div></div>
-                <div class="contact-item"><div class="contact-icon">💼</div><div class="contact-info"><strong>LinkedIn</strong><br><a href="${contactInfo.linkedinUrl}" target="_blank" style="color: var(--accent); text-decoration: none;">${contactInfo.linkedin}</a></div></div>
-                <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-info"><strong>Ubicación</strong><br>${contactInfo.location}</div></div>
-            `;
-        }
+    <article class="card proyecto">
+      <div class="portada" style="background:linear-gradient(135deg,#44337a,#805ad5)">
+        <svg viewBox="0 0 200 110" fill="none" aria-hidden="true">
+          <rect x="52" y="10" width="72" height="92" rx="6" fill="rgba(255,255,255,.25)"/>
+          <g stroke="rgba(255,255,255,.85)" stroke-width="4" stroke-linecap="round"><line x1="64" y1="30" x2="112" y2="30"/><line x1="64" y1="44" x2="104" y2="44"/><line x1="64" y1="58" x2="110" y2="58"/><line x1="64" y1="72" x2="96" y2="72"/></g>
+          <circle cx="132" cy="70" r="20" stroke="#fff" stroke-width="5"/>
+          <line x1="146" y1="84" x2="162" y2="100" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="cuerpo">
+        <div class="cat">IA · Automatización</div>
+        <h3>Normativas de seguros con IA – Demo</h3>
+        <p>Prototipo de plataforma interna para seguir cambios regulatorios: se carga una norma, la IA identifica los puntos importantes,
+          se prioriza, se valida y se genera un resumen.</p>
+        <div class="tags"><span>IA generativa</span><span>HTML</span><span>JavaScript</span><span>Automatización</span></div>
+        <div class="acciones">
+          <a class="btn-o lleno" href="https://adrianajoa18-bot.github.io/normativas-demo/" target="_blank" rel="noopener">Ver demo</a>
+          <a class="btn-o" href="https://github.com/adrianajoa18-bot/normativas-demo" target="_blank" rel="noopener">Código</a>
+        </div>
+      </div>
+    </article>
 
-        // Render projects grid
-        function renderProjects() {
-            const grid = document.getElementById('projectsGrid');
-            grid.innerHTML = '';
-            projects.forEach(project => {
-                const card = document.createElement('div');
-                card.className = 'project-card';
-                let fileBadge = '', linkButton = '', viewButton = '';
-                if (project.type === 'excel') {
-                    fileBadge = '<span class="tag">📊 Excel interactivo</span>';
-                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Dashboard</button>`;
-                } else if (project.type === 'webpage') {
-                    fileBadge = '<span class="tag">🌐 Página Web</span>';
-                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Página</button>`;
-                } else if (project.type === 'ppt') {
-                    // Badge and button for PowerPoint presentations
-                    fileBadge = '<span class="tag">📑 PowerPoint</span>';
-                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver PPT</button>`;
-                } else if (project.type === 'powerbi') {
-                    fileBadge = '<span class="tag">📊 Power BI</span>';
-                    viewButton = `<button class="view-project-btn" onclick="viewProject(${project.id})">Ver Reporte</button>`;
-                }
-                if (project.link && project.link.trim() !== '') {
-                    linkButton = `<a href="${project.link}" target="_blank" class="view-project-btn" style="margin-left: 0.5rem;">🔗 Ver Proyecto</a>`;
-                }
-                card.innerHTML = `
-                    <div class="project-image">${project.icon || '📁'}</div>
-                    <div class="project-content">
-                        <div class="project-category">${project.category}</div>
-                        <h3 class="project-title">${project.title}</h3>
-                        <p class="project-description">${project.description}</p>
-                        ${fileBadge}
-                        <div class="project-tags">${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
-                        <div style="margin-top: 0.8rem;">
-                            ${viewButton || ''}
-                            ${linkButton}
-                        </div>
-                        <div style="margin-top: 0.8rem;">
-                            <button class="edit-btn" onclick="editProject(${project.id})">Editar</button>
-                            <button class="delete-btn" onclick="deleteProject(${project.id})">Eliminar</button>
-                            ${project.fileData ? `<button class="download-btn" onclick="downloadFile(${project.id})">Descargar</button>` : ''}
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+  </div>
+</section>
 
-        // Toggle file upload fields depending on project type
-        function toggleFileUpload() {
-            const type = document.getElementById('projectType').value;
-            const fileGroup = document.getElementById('fileUploadGroup');
-            const embedGroup = document.getElementById('embedLinkGroup');
-            // Show the file upload for Excel, Webpage or PPT types
-            if (type === 'excel' || type === 'webpage' || type === 'ppt') {
-                fileGroup.style.display = 'block';
-                embedGroup.style.display = 'none';
-                // Configure accepted file extensions based on the selected type
-                if (type === 'excel') {
-                    document.getElementById('projectFile').accept = '.xlsx,.xls';
-                } else if (type === 'webpage') {
-                    document.getElementById('projectFile').accept = '.html,.htm';
-                } else {
-                    // For PPT projects accept both .ppt and .pptx
-                    document.getElementById('projectFile').accept = '.ppt,.pptx';
-                }
-            } else if (type === 'powerbi') {
-                fileGroup.style.display = 'none';
-                embedGroup.style.display = 'block';
-            } else {
-                fileGroup.style.display = 'none';
-                embedGroup.style.display = 'none';
-            }
-        }
+<section id="habilidades">
+  <h2>Habilidades</h2>
+  <div class="grid g2">
+    <div class="card skill"><h3><span class="ico">📊</span>Análisis y visualización</h3>
+      <ul><li>Excel avanzado</li><li>Power Query</li><li>Tablas dinámicas</li><li>Power BI</li><li>Tableau</li><li>Dashboards</li></ul></div>
+    <div class="card skill"><h3><span class="ico">🐍</span>Programación y datos</h3>
+      <ul><li>Python</li><li>pandas</li><li>NumPy</li><li>scikit-learn</li><li>statsmodels</li><li>SQL Server</li><li>Azure</li><li>Jupyter</li></ul></div>
+    <div class="card skill"><h3><span class="ico">📐</span>Actuarial y negocio</h3>
+      <ul><li>GLM (Poisson, Gamma)</li><li>Tarificación</li><li>Frecuencia y severidad</li><li>Ratios técnicos</li><li>Gobierno corporativo</li><li>ESG y sostenibilidad</li></ul></div>
+    <div class="card skill"><h3><span class="ico">🤖</span>IA y productividad</h3>
+      <ul><li>IA generativa</li><li>Automatización de procesos</li><li>Google Workspace</li><li>Tango Gestión</li><li>Presentaciones corporativas</li></ul></div>
+  </div>
+</section>
 
-        // Add new project from modal
-        function addProject(event) {
-            event.preventDefault();
-            const newProject = {
-                id: Date.now(),
-                title: document.getElementById('projectTitle').value,
-                category: document.getElementById('projectCategory').value,
-                description: document.getElementById('projectDescription').value,
-                tags: document.getElementById('projectTags').value.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
-                icon: document.getElementById('projectIcon').value || '📁',
-                link: document.getElementById('projectLink').value || '',
-                type: document.getElementById('projectType').value
-            };
-            const fileInput = document.getElementById('projectFile');
-            const embedLink = document.getElementById('embedLink').value;
-            // If the project requires a file (Excel, Webpage or PPT) and a file is provided
-            if ((newProject.type === 'excel' || newProject.type === 'webpage' || newProject.type === 'ppt') && fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    newProject.fileData = e.target.result;
-                    newProject.fileName = file.name;
-                    projects.unshift(newProject);
-                    renderProjects();
-                    closeModal();
-                    document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-                };
-                reader.readAsDataURL(file);
-            } else if (newProject.type === 'powerbi' && embedLink) {
-                newProject.embedLink = embedLink;
-                projects.unshift(newProject);
-                renderProjects();
-                closeModal();
-                document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-            } else {
-                projects.unshift(newProject);
-                renderProjects();
-                closeModal();
-                document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+<section id="experiencia">
+  <h2>Experiencia</h2>
+  <div class="tl">
+    <div class="tl-item actual card">
+      <div class="fecha">Marzo 2026 – Actualidad</div>
+      <h3>Pasante · Gobierno, Sostenibilidad y Estrategia</h3>
+      <div class="org">Zurich Santander</div>
+      <ul>
+        <li>Elaboración de presentaciones corporativas e infografías sobre gobierno corporativo y sostenibilidad.</li>
+        <li>Evaluación, selección y seguimiento de proyectos de mecenazgo.</li>
+        <li>Gestión de oportunidades de voluntariado en la plataforma Benevity de la Z Zurich Foundation.</li>
+        <li>Actualización de la web y de los manuales corporativos del área; participación en la autoevaluación GAP.</li>
+        <li>Proceso legal y de compliance de nuevas alianzas con fundaciones.</li>
+        <li>Automatización de procesos internos con herramientas digitales y coordinación de trabajo entre áreas.</li>
+      </ul>
+    </div>
+    <div class="tl-item card">
+      <div class="fecha">Marzo 2024 – Julio 2025</div>
+      <h3>Asistente administrativa</h3>
+      <div class="org">SOLUCRED</div>
+      <ul>
+        <li>Administración y mantenimiento de la base de datos de cobranza.</li>
+        <li>Actualización de la cartera de clientes y ejecución de auditorías periódicas.</li>
+        <li>Uso de Google Drive, planillas de Excel y sistema interno.</li>
+      </ul>
+    </div>
+    <div class="tl-item card">
+      <div class="fecha">2023</div>
+      <h3>Pasante · Asistente de recolección de datos</h3>
+      <div class="org">Ministerio de Trabajo</div>
+      <ul>
+        <li>Operativos territoriales en distintas comunas de CABA para la realización de encuestas presenciales.</li>
+        <li>Carga de datos en el sistema interno con foco en precisión y completitud.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-        // Edit project: prefill modal with project data
-        function editProject(id) {
-            const project = projects.find(p => p.id === id);
-            if (!project) return;
-            // Prefill fields
-            document.getElementById('projectTitle').value = project.title;
-            document.getElementById('projectCategory').value = project.category;
-            document.getElementById('projectDescription').value = project.description;
-            document.getElementById('projectTags').value = project.tags.join(', ');
-            document.getElementById('projectIcon').value = project.icon;
-            document.getElementById('projectLink').value = project.link || '';
-            document.getElementById('projectType').value = project.type || 'standard';
-            document.getElementById('embedLink').value = project.embedLink || '';
-            toggleFileUpload();
-            // Remove from list while editing
-            projects = projects.filter(p => p.id !== id);
-            openModal();
-        }
+<section id="formacion">
+  <h2>Formación</h2>
+  <div class="grid g2">
+    <div>
+      <div class="card" style="margin-bottom:18px">
+        <h3>Licenciatura en Actuario</h3>
+        <p class="nota" style="margin-top:0">Facultad de Ciencias Económicas · Universidad de Buenos Aires · 2021 – Actualidad</p>
+      </div>
+      <div class="card">
+        <h3>Voluntariado</h3>
+        <div class="curso"><div><div class="n">Tutora del área de Administración</div><div class="i">Fundación Empujar · Clases de administración e introducción a Excel</div></div><div class="f">Jul 2026</div></div>
+        <div class="curso"><div><div class="n">Apoyo escolar</div><div class="i">Comedor comunitario en Cildañes · Primaria y secundaria</div></div><div class="f">2016 – 2018</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Cursos y certificaciones</h3>
+      <div class="curso"><div><div class="n">Carrera de Data Science <span class="en-curso">En curso</span></div><div class="i">Educación IT</div></div><div class="f">Ene 2026 –</div></div>
+      <div class="curso"><div><div class="n">Carrera SQL Server &amp; Azure <span class="en-curso">En curso</span></div><div class="i">Educación IT</div></div><div class="f">Dic 2025 –</div></div>
+      <div class="curso"><div><div class="n">Python para análisis de datos</div><div class="i">Educación IT</div></div><div class="f">Jun – Ago 2026</div></div>
+      <div class="curso"><div><div class="n">Data Analytics (Excel y Tableau)</div><div class="i">Coderhouse</div></div><div class="f">Dic 2025 – Jun 2026</div></div>
+      <div class="curso"><div><div class="n">Inteligencia artificial y productividad</div><div class="i">Educación IT</div></div><div class="f">Feb – Mar 2026</div></div>
+      <div class="curso"><div><div class="n">Asistente administrativa</div><div class="i">KPMG</div></div><div class="f">Abr – Jun 2026</div></div>
+      <div class="curso"><div><div class="n">Tango Gestión <span class="en-curso">En curso</span></div><div class="i">Tango University</div></div><div class="f">Ago 2025 –</div></div>
+      <div class="curso"><div><div class="n">Programa Tu Empleo · Liderazgo del área de Administración</div><div class="i">Fundación Empujar</div></div><div class="f">Ago – Dic 2025</div></div>
+      <div class="curso"><div><div class="n">Auxiliar contable e impositivo</div><div class="i">Gestar Educativa UTN</div></div><div class="f">2020</div></div>
+    </div>
+  </div>
+</section>
 
-        // Delete project
-        function deleteProject(id) {
-            if (confirm('¿Estás segura de eliminar este proyecto?')) {
-                projects = projects.filter(p => p.id !== id);
-                renderProjects();
-            }
-        }
+<section id="contacto">
+  <div class="contacto">
+    <h2>Hablemos</h2>
+    <p>Si buscás a alguien con base actuarial, ganas de aprender y foco en los datos, me encantaría conversar.</p>
+    <div class="links">
+      <a href="mailto:jessica-ojedaarenas@outlook.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>jessica-ojedaarenas@outlook.com</a>
+      <a href="https://www.linkedin.com/in/jessica-adriana-ojeda-arenas" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg>LinkedIn</a>
+      <a href="https://github.com/adrianajoa18-bot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>GitHub</a>
+      <a href="tel:+541128249890"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7a2 2 0 0 1 1.7 2z"/></svg>+54 11 2824-9890</a>
+    </div>
+  </div>
+</section>
 
-        // View project preview
-        function viewProject(id) {
-            const project = projects.find(p => p.id === id);
-            if (!project) return;
-            document.getElementById('previewTitle').textContent = project.title;
-            const body = document.getElementById('previewBody');
-            body.innerHTML = '';
-            if (project.type === 'excel' && project.fileData) {
-                body.innerHTML = `<div style="padding: 1rem;"><h3>📊 Dashboard de Excel</h3><p>Descargá el archivo para ver el dashboard completo.</p><p><strong>Archivo:</strong> ${project.fileName}</p><button onclick="downloadFile(${id})" class="view-project-btn">📥 Descargar Excel</button></div>`;
-            } else if (project.type === 'webpage' && project.fileData) {
-                const blob = dataURItoBlob(project.fileData);
-                const url = URL.createObjectURL(blob);
-                body.innerHTML = `<iframe style="width:100%;height:80vh;border:none;" src="${url}"></iframe>`;
-            } else if (project.type === 'ppt' && project.fileData) {
-                // Preview for PowerPoint presentations: offer a download with file name
-                body.innerHTML = `<div style="padding: 1rem;"><h3>📑 Presentación PowerPoint</h3><p>Descargá la presentación para verla.</p><p><strong>Archivo:</strong> ${project.fileName}</p><button onclick="downloadFile(${id})" class="view-project-btn">📥 Descargar PPT</button></div>`;
-            } else if (project.type === 'powerbi' && project.embedLink) {
-                body.innerHTML = `<iframe style="width:100%;height:80vh;border:none;" src="${project.embedLink}"></iframe>`;
-            }
-            document.getElementById('previewModal').classList.add('active');
-        }
+</main>
 
-        function closePreview() {
-            document.getElementById('previewModal').classList.remove('active');
-        }
+<footer><div class="wrap">
+  <span>© 2026 Jessica Ojeda Arenas</span>
+  <a href="#inicio">Volver arriba ↑</a>
+</div></footer>
 
-        function downloadFile(id) {
-            const project = projects.find(p => p.id === id);
-            if (!project || !project.fileData) return;
-            const link = document.createElement('a');
-            link.href = project.fileData;
-            link.download = project.fileName || 'archivo';
-            link.click();
-        }
-
-        // Helpers
-        function dataURItoBlob(dataURI) {
-            const byteString = atob(dataURI.split(',')[1]);
-            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            const ab = new ArrayBuffer(byteString.length);
-            const ia = new Uint8Array(ab);
-            for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
-            return new Blob([ab], { type: mimeString });
-        }
-
-        // Modals open/close
-        function openModal() {
-            document.getElementById('projectModal').classList.add('active');
-            document.getElementById('projectForm').reset();
-            toggleFileUpload();
-        }
-        function closeModal() {
-            document.getElementById('projectModal').classList.remove('active');
-        }
-        // Contact modal
-        function openContactModal() {
-            document.getElementById('contactEmail').value = contactInfo.email;
-            document.getElementById('contactPhone').value = contactInfo.phone;
-            document.getElementById('contactLinkedin').value = contactInfo.linkedin;
-            document.getElementById('contactLinkedinUrl').value = contactInfo.linkedinUrl;
-            document.getElementById('contactLocation').value = contactInfo.location;
-            document.getElementById('contactModal').classList.add('active');
-        }
-        function closeContactModal() {
-            document.getElementById('contactModal').classList.remove('active');
-        }
-        function updateContact(event) {
-            event.preventDefault();
-            contactInfo.email = document.getElementById('contactEmail').value;
-            contactInfo.phone = document.getElementById('contactPhone').value;
-            contactInfo.linkedin = document.getElementById('contactLinkedin').value;
-            contactInfo.linkedinUrl = document.getElementById('contactLinkedinUrl').value;
-            contactInfo.location = document.getElementById('contactLocation').value;
-            renderContact();
-            closeContactModal();
-            alert('✅ Información de contacto actualizada correctamente');
-        }
-
-        // Close modals when clicking outside
-        document.addEventListener('click', function(e) {
-            const modals = [document.getElementById('projectModal'), document.getElementById('previewModal'), document.getElementById('contactModal')];
-            modals.forEach(modal => {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                }
-            });
-        });
-
-        // Show nav bar after scrolling a bit
-        window.addEventListener('scroll', function() {
-            const nav = document.getElementById('navbar');
-            nav.style.display = window.scrollY > 100 ? 'block' : 'none';
-        });
-
-        // Smooth scrolling for anchor links
-        document.addEventListener('DOMContentLoaded', function() {
-            renderProjects();
-            renderContact();
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-        });
-    </script>
 </body>
 </html>
