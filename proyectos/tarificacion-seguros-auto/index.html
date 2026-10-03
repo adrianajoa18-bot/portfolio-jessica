@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarificación de seguros de auto – Jessica Ojeda Arenas</title>
+<meta name="description" content="Proyecto de ciencia actuarial y datos: SQL, Python, GLM y Gradient Boosting para estimar la prima pura de 678.000 pólizas de auto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/proyecto.css">
+<style>
+  .calc-res { background: linear-gradient(135deg, #0a3d62, #3c6382); color: #fff; border: none; }
+  .calc-res .valor { color: #fff; }
+  .calc-res .nombre { color: rgba(255,255,255,0.8); }
+  .calc-campos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .calc-campos label { font-size: 0.82rem; color: var(--suave); display: block; margin-bottom: 4px; }
+  .calc-campos select { width: 100%; }
+  .prima-grande { font-size: 2.6rem; font-weight: 700; line-height: 1.1; margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .vs-base { display: inline-block; background: rgba(255,255,255,0.18); padding: 3px 10px; border-radius: 999px; font-size: 0.85rem; }
+  .desglose { margin-top: 16px; font-size: 0.86rem; }
+  .desglose div { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  .desglose .up { color: #ffd2b0; } .desglose .down { color: #b9f5d0; }
+  @media (max-width: 520px) { .calc-campos { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="marca" href="../../index.html">Jessica Ojeda</a>
+  <a href="../../index.html#projects">← Volver a proyectos</a>
+</div></nav>
+
+<header class="cabecera"><div class="wrap">
+  <span class="categoria">Proyecto integrador · Ciencia actuarial + Data Science</span>
+  <h1>Tarificación de seguros de auto con datos</h1>
+  <p class="bajada">¿Cuánto debería pagar cada cliente según su riesgo? A partir de 678.000 pólizas reales estimo la
+    <strong>prima pura</strong> (el costo esperado de siniestros) y comparo un modelo actuarial clásico (GLM) con uno de
+    machine learning (Gradient Boosting).</p>
+  <div class="etiquetas"><span>SQL</span><span>Python</span><span>pandas</span><span>statsmodels</span><span>scikit-learn</span><span>GLM</span><span>Gradient Boosting</span></div>
+  <div class="botones">
+    <a class="btn lleno" href="#calculadora">Probar la calculadora</a>
+    <a class="btn" href="https://github.com/adrianajoa18-bot/portfolio-jessica/blob/main/proyectos/tarificacion-seguros-auto/notebooks/tarificacion_seguros_auto.ipynb" target="_blank" rel="noopener">Ver el notebook</a>
+    <a class="btn" href="https://github.com/adrianajoa18-bot/portfolio-jessica/tree/main/proyectos/tarificacion-seguros-auto/sql" target="_blank" rel="noopener">Ver el código SQL</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+
+<section>
+  <h2>La cartera en números</h2>
+  <p class="intro">Responsabilidad civil de autos de una aseguradora francesa, un año de observación (base pública <em>freMTPL2</em>).</p>
+  <div class="grid g5" id="kpis"></div>
+</section>
+
+<section>
+  <h2>Cómo lo hice</h2>
+  <div class="grid g4">
+    <div class="card paso"><div class="num">1</div><h3>Base de datos</h3><p>Modelé las tablas pólizas y siniestros (relación 1 a N), cargué los datos y controlé la calidad con consultas.</p><div class="herr">SQL Server · SQLite</div></div>
+    <div class="card paso"><div class="num">2</div><h3>Exploración y limpieza</h3><p>Calculé frecuencia, severidad y prima pura por segmento con JOINs y subconsultas. Topeé valores atípicos y armé tramos.</p><div class="herr">SQL · pandas</div></div>
+    <div class="card paso"><div class="num">3</div><h3>Modelos</h3><p>GLM Poisson (frecuencia) y Gamma (severidad) con exposición como offset. Gradient Boosting Poisson como referencia.</p><div class="herr">statsmodels · scikit-learn</div></div>
+    <div class="card paso"><div class="num">4</div><h3>Validación y tablero</h3><p>Comparé los modelos con datos de prueba (desvío, Gini, lift), controlé el equilibrio de la tarifa y armé este tablero.</p><div class="herr">Chart.js</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>¿Qué explica el riesgo?</h2>
+  <p class="intro">Frecuencia observada (siniestros por año-póliza) y exposición en cada tramo. Elegí una variable:</p>
+  <div class="card">
+    <div class="chips" id="chipsOneway"></div>
+    <div class="grafico" style="margin-top:14px"><canvas id="gOneway"></canvas></div>
+    <div class="insight" id="insightOneway"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Factores de tarifa del GLM</h2>
+  <p class="intro">El GLM es multiplicativo: cada tramo tiene un <strong>factor</strong> frente al tramo base (factor 1). Un factor de 1,30 es un recargo del 30 %; uno de 0,85, un descuento del 15 %. A diferencia del gráfico anterior, acá cada efecto está <strong>aislado</strong> del resto de las variables.</p>
+  <div class="card">
+    <div class="chips" id="chipsFactores"></div>
+    <div class="grafico" style="margin-top:14px"><canvas id="gFactores"></canvas></div>
+    <div class="insight"><strong>Hallazgo clave:</strong> en la tabla simple, los conductores de 18-20 años chocan 3 veces más que los de 41-50; pero en el GLM su factor de edad es apenas 1,10. La razón: en Francia los conductores nuevos empiezan con Bonus-Malus 100, así que el Bonus-Malus ya "sabe" quién es joven y se lleva ese efecto. Por eso hay que modelar las variables en conjunto y no de a una.</div>
+  </div>
+</section>
+
+<section id="calculadora">
+  <h2>Calculadora de prima pura</h2>
+  <p class="intro">Armá un perfil y mirá cómo cambia el costo esperado. Usa los factores reales del modelo:
+    <em>prima pura = frecuencia × severidad × recargo por siniestros grandes</em>.</p>
+  <div class="grid g2">
+    <div class="card"><div class="calc-campos" id="campos"></div>
+      <p class="nota">Valores en euros por año de cobertura. Es la prima <strong>pura</strong>: no incluye gastos, impuestos ni margen.</p></div>
+    <div class="card calc-res">
+      <div class="nombre">Prima pura estimada</div>
+      <div class="prima-grande" id="rPrima">–</div>
+      <span class="vs-base" id="rVs"></span>
+      <div class="grid g2" style="margin-top:18px">
+        <div class="kpi"><div class="valor" id="rFrec">–</div><div class="nombre">Siniestros esperados por año</div></div>
+        <div class="kpi"><div class="valor" id="rSev">–</div><div class="nombre">Costo medio por siniestro</div></div>
+      </div>
+      <div class="desglose" id="rDesglose"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>GLM vs. machine learning</h2>
+  <p class="intro">Evaluado sobre el 20 % de pólizas que los modelos no vieron al entrenar.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Métricas</h3>
+      <div class="tabla-wrap"><table id="tMetricas"><thead><tr><th>Modelo</th><th>Desvío Poisson ↓</th><th>Mejora vs. tarifa única</th><th>Gini ↑</th></tr></thead><tbody></tbody></table></div>
+      <p class="nota"><strong>Desvío:</strong> error de predicción para conteos (más bajo es mejor). <strong>Gini:</strong> qué tan bien ordena a los clientes de menor a mayor riesgo (más alto es mejor).</p>
+      <div class="insight">El <strong>Gradient Boosting</strong> ordena algo mejor el riesgo, pero el <strong>GLM</strong> entrega una tabla de factores que se puede explicar a un regulador o a un área comercial. Por eso el GLM sigue siendo el estándar en tarificación, y el ML sirve como referencia para encontrar interacciones que valga la pena agregar.</div>
+    </div>
+    <div class="card">
+      <h3>Curva de Lorenz</h3>
+      <div class="grafico"><canvas id="gLorenz"></canvas></div>
+      <p class="nota">Ordenando a los clientes por riesgo predicho: cuanto más se aleja la curva de la diagonal, mejor separa el modelo a los clientes riesgosos.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>Lift por decil de riesgo</h3>
+    <div class="grafico"><canvas id="gLift"></canvas></div>
+    <p class="nota">Clientes divididos en 10 grupos según el riesgo que predice el GLM. El modelo está bien calibrado: lo predicho sigue de cerca a lo observado, y el decil más riesgoso tiene 5,6 veces la frecuencia del menos riesgoso.</p>
+  </div>
+</section>
+
+<section>
+  <h2>El problema de los siniestros grandes</h2>
+  <div class="grid g2">
+    <div class="card"><div class="grafico"><canvas id="gConc"></canvas></div></div>
+    <div class="card">
+      <p>Menos del <strong>1 %</strong> de los siniestros (los mayores a 20.000 EUR) explica <strong id="pctGrandes">el 37 %</strong> del costo total. Si entran tal cual al modelo, unos pocos casos distorsionan todos los factores.</p>
+      <ul class="lista" style="margin-top:12px">
+        <li>Los montos se topean en el <strong>percentil 99</strong> (<span id="tope"></span> EUR).</li>
+        <li>El exceso se reparte como un <strong>recargo</strong> igual para todos (<span id="recargo"></span>).</li>
+        <li>Con montos topeados, la tarifa queda <strong>equilibrada</strong>: primas / siniestros = <span id="equi"></span> en datos de prueba.</li>
+      </ul>
+      <div class="insight">Los grandes son tan volátiles que en entrenamiento cayeron 40 siniestros de más de 100.000 EUR y en prueba solo 2. En la práctica, este recargo se calcula con varios años de historia y se complementa con <strong>reaseguro</strong>.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Conclusiones</h2>
+  <div class="card">
+    <ul class="lista">
+      <li>El <strong>Bonus-Malus</strong> es la variable que más diferencia el riesgo: el tramo 125+ tiene ~10 veces la frecuencia del máximo bonus, con todo lo demás fijo.</li>
+      <li>Un modelo multivariado cambia la lectura de las tablas simples: el efecto de la edad se explica casi todo por el historial de siniestros.</li>
+      <li>El <strong>GLM</strong> logra la mayor parte de la mejora con un modelo transparente; el <strong>Gradient Boosting</strong> suma un poco más de precisión a cambio de interpretabilidad.</li>
+      <li>La <strong>severidad</strong> es mucho más difícil de predecir que la frecuencia, y los siniestros grandes requieren un tratamiento aparte.</li>
+    </ul>
+    <p class="nota"><strong>Próximos pasos:</strong> agregar interacciones al GLM (edad × potencia), validación cruzada y un modelo de valores extremos para los siniestros grandes.<br>
+    <strong>Datos:</strong> freMTPL2freq / freMTPL2sev, paquete CASdatasets (Dutang &amp; Charpentier). Montos en euros.</p>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 Jessica Ojeda Arenas</span>
+  <a href="../../index.html">Volver al portfolio</a>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="resultados.js"></script>
+<script>
+const R = window.RESULTADOS;
+const C = { navy: '#0a3d62', azul: '#2b6cb0', acento: '#e67e22', rosa: '#c2185b', gris: '#d9e2ec', verde: '#2f855a', suave: '#5b6b7d' };
+Chart.defaults.font.family = "'Poppins', sans-serif";
+Chart.defaults.color = C.suave;
+Chart.defaults.plugins.legend.labels.boxWidth = 12;
+
+const fmt = (x, d = 0) => x.toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = (x, d = 1) => fmt(x * 100, d) + ' %';
+const NOMBRES_NIVEL = { tramo_bm: { '50': '50 (máx. bonus)' }, VehGas: { Regular: 'Nafta', Diesel: 'Diésel' } };
+const nivel = (v, n) => (NOMBRES_NIVEL[v] && NOMBRES_NIVEL[v][n]) || n;
+
+// KPIs
+const k = R.kpis;
+document.getElementById('kpis').innerHTML = [
+  [fmt(k.polizas), 'Pólizas'],
+  [fmt(k.anios_poliza), 'Años-póliza de exposición'],
+  [fmt(k.siniestros), 'Siniestros'],
+  [pct(k.frecuencia, 2), 'Frecuencia anual'],
+  [fmt(R.severidad_media) + ' €', 'Costo medio por siniestro'],
+].map(([v, n]) => `<div class="card kpi"><div class="valor">${v}</div><div class="nombre">${n}</div></div>`).join('');
+
+// Selector de variables (chips)
+function chips(id, vars, onSelect) {
+  const el = document.getElementById(id);
+  el.innerHTML = vars.map((v, i) => `<button class="chip ${i === 0 ? 'activo' : ''}" data-v="${v}">${R.variables[v]}</button>`).join('');
+  el.addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    el.querySelectorAll('.chip').forEach(c => c.classList.toggle('activo', c === b));
+    onSelect(b.dataset.v);
+  });
+}
+
+// One-way
+const INSIGHTS = {
+  tramo_edad: 'Los conductores de <strong>18-20 años</strong> tienen 3 veces la frecuencia de los de 41-50. A partir de los 30 el riesgo se estabiliza.',
+  tramo_bm: 'El <strong>Bonus-Malus</strong> ordena el riesgo casi a la perfección: a peor historial, más siniestros. Es la variable más potente de la tarifa.',
+  tramo_antig: 'La frecuencia es bastante pareja hasta los 15 años y <strong>baja en autos de 16 años o más</strong>, probablemente porque se usan menos.',
+  tramo_potencia: 'La potencia tiene un efecto <strong>moderado</strong>: los autos de 10 o más tienen la frecuencia más alta.',
+  VehGas: 'Los autos <strong>diésel</strong> tienen algo más de frecuencia: suelen usarse para recorrer más kilómetros.',
+  Area: 'Las zonas <strong>urbanas</strong> (E, F) tienen ~75 % más frecuencia que las rurales (A): más tránsito, más choques.',
+  VehBrand: 'Las marcas están anonimizadas. Hay diferencias claras: B11 tiene ~50 % más frecuencia que B12.',
+  Region: 'Hay diferencias regionales, pero varias regiones tienen poca exposición: sus frecuencias son menos confiables.',
+};
+const VARS = Object.keys(R.variables);
+let gOneway;
+function dibujarOneway(v) {
+  const d = R.oneway[v];
+  const data = {
+    labels: d.map(x => nivel(v, x.nivel)),
+    datasets: [
+      { type: 'line', label: 'Frecuencia', data: d.map(x => x.frecuencia), borderColor: C.rosa, backgroundColor: C.rosa, yAxisID: 'y1', tension: 0.25, pointRadius: 4 },
+      { type: 'bar', label: 'Exposición (años-póliza)', data: d.map(x => x.exposicion), backgroundColor: C.gris, borderRadius: 6, yAxisID: 'y' },
+    ],
+  };
+  const opciones = {
+    maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+    scales: {
+      y: { position: 'left', grid: { display: false }, ticks: { callback: x => fmt(x / 1000) + ' mil' }, title: { display: true, text: 'Exposición' } },
+      y1: { position: 'right', beginAtZero: true, ticks: { callback: x => pct(x, 0) }, title: { display: true, text: 'Frecuencia' } },
+      x: { grid: { display: false } },
+    },
+    plugins: { tooltip: { callbacks: { label: c => c.dataset.yAxisID === 'y1' ? ` Frecuencia: ${pct(c.raw, 2)}` : ` Exposición: ${fmt(c.raw)}` } } },
+  };
+  if (gOneway) { gOneway.data = data; gOneway.update(); } else gOneway = new Chart(document.getElementById('gOneway'), { data, options: opciones });
+  document.getElementById('insightOneway').innerHTML = INSIGHTS[v];
+}
+chips('chipsOneway', VARS, dibujarOneway);
+dibujarOneway(VARS[0]);
+
+// Factores GLM
+let gFactores;
+function dibujarFactores(v) {
+  const f = R.factores_frecuencia[v];
+  const niveles = Object.keys(f);
+  const data = {
+    labels: niveles.map(n => nivel(v, n)),
+    datasets: [{ label: 'Factor de frecuencia', data: niveles.map(n => f[n]), borderRadius: 6,
+      backgroundColor: niveles.map(n => n === R.base[v] ? C.navy : (f[n] > 1 ? C.acento : C.verde)) }],
+  };
+  const opciones = {
+    maintainAspectRatio: false,
+    scales: { y: { beginAtZero: true, ticks: { callback: x => fmt(x, 1) } }, x: { grid: { display: false } } },
+    plugins: { legend: { display: false }, tooltip: { callbacks: {
+      label: c => { const x = c.raw; return ` Factor ${fmt(x, 2)} ` + (Math.abs(x - 1) < 1e-9 ? '(base)' : x > 1 ? `(+${fmt((x - 1) * 100)} %)` : `(−${fmt((1 - x) * 100)} %)`); } } } },
+  };
+  if (gFactores) { gFactores.data = data; gFactores.update(); } else gFactores = new Chart(document.getElementById('gFactores'), { type: 'bar', data, options: opciones });
+}
+chips('chipsFactores', VARS, dibujarFactores);
+dibujarFactores(VARS[0]);
+
+// Calculadora
+const campos = document.getElementById('campos');
+campos.innerHTML = VARS.map(v => `<div><label for="c_${v}">${R.variables[v]}</label><select id="c_${v}" data-v="${v}">` +
+  R.oneway[v].map(x => `<option value="${x.nivel}" ${x.nivel === R.base[v] ? 'selected' : ''}>${nivel(v, x.nivel)}</option>`).join('') + '</select></div>').join('');
+
+function calcular(perfil) {
+  let frec = R.frecuencia_base, sev = R.severidad_base * R.recargo_grandes;
+  for (const v of VARS) {
+    frec *= R.factores_frecuencia[v][perfil[v]] ?? 1;
+    if (R.factores_severidad[v]) sev *= R.factores_severidad[v][perfil[v]] ?? 1;
+  }
+  return { frec, sev, prima: frec * sev };
+}
+const primaBase = calcular(R.base).prima;
+function actualizar() {
+  const perfil = {}; campos.querySelectorAll('select').forEach(s => perfil[s.dataset.v] = s.value);
+  const r = calcular(perfil);
+  document.getElementById('rPrima').textContent = fmt(r.prima) + ' €';
+  document.getElementById('rFrec').textContent = fmt(r.frec, 3);
+  document.getElementById('rSev').textContent = fmt(r.sev) + ' €';
+  const m = r.prima / primaBase;
+  document.getElementById('rVs').textContent = Math.abs(m - 1) < 0.005 ? 'Perfil base' : `${fmt(m, 2)} × el perfil base`;
+  document.getElementById('rDesglose').innerHTML = VARS.map(v => {
+    const f = (R.factores_frecuencia[v][perfil[v]] ?? 1) * ((R.factores_severidad[v] || {})[perfil[v]] ?? 1);
+    if (Math.abs(f - 1) < 0.005) return '';
+    return `<div><span>${R.variables[v]}: ${nivel(v, perfil[v])}</span><span class="${f > 1 ? 'up' : 'down'}">× ${fmt(f, 2)}</span></div>`;
+  }).join('') || '<div><span>Todas las variables en su nivel base</span><span></span></div>';
+}
+campos.addEventListener('change', actualizar);
+actualizar();
+
+// Métricas
+const nombreCorto = n => n.startsWith('Modelo nulo') ? 'Tarifa única (sin modelo)' : n;
+document.querySelector('#tMetricas tbody').innerHTML = R.metricas.map(m =>
+  `<tr class="${m.modelo === 'GLM Poisson' ? 'destacada' : ''}"><td>${nombreCorto(m.modelo)}</td><td>${fmt(m.desvio_poisson, 4)}</td><td>${pct(m.mejora_desvio_vs_nulo)}</td><td>${fmt(Math.max(0, m.gini), 3)}</td></tr>`).join('');
+
+// Lorenz
+const colLorenz = { 'GLM Poisson': C.navy, 'Gradient Boosting': C.acento };
+new Chart(document.getElementById('gLorenz'), {
+  type: 'line',
+  data: { datasets: [
+    ...Object.entries(R.lorenz).filter(([n]) => colLorenz[n]).map(([n, c]) => ({
+      label: n, data: c.x.map((x, i) => ({ x, y: c.y[i] })), borderColor: colLorenz[n], pointRadius: 0, borderWidth: 2.5, tension: 0.2 })),
+    { label: 'Sin modelo (azar)', data: [{ x: 0, y: 0 }, { x: 1, y: 1 }], borderColor: '#9aa8b7', borderDash: [6, 5], pointRadius: 0, borderWidth: 1.5 },
+  ] },
+  options: { maintainAspectRatio: false, parsing: false,
+    scales: { x: { type: 'linear', min: 0, max: 1, ticks: { callback: x => pct(x, 0) }, title: { display: true, text: '% de clientes (de menor a mayor riesgo predicho)' } },
+              y: { min: 0, max: 1, ticks: { callback: x => pct(x, 0) }, title: { display: true, text: '% de siniestros' } } },
+    plugins: { tooltip: { enabled: false } } },
+});
+
+// Lift
+new Chart(document.getElementById('gLift'), {
+  data: { labels: R.lift.map(d => 'D' + d.decil), datasets: [
+    { type: 'bar', label: 'Observada', data: R.lift.map(d => d.observada), backgroundColor: C.gris, borderRadius: 6 },
+    { type: 'line', label: 'GLM', data: R.lift.map(d => d.glm), borderColor: C.navy, backgroundColor: C.navy, tension: 0.2 },
+    { type: 'line', label: 'Gradient Boosting', data: R.lift.map(d => d.gbm), borderColor: C.acento, backgroundColor: C.acento, borderDash: [5, 4], tension: 0.2 },
+  ] },
+  options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+    scales: { y: { beginAtZero: true, ticks: { callback: x => pct(x, 0) }, title: { display: true, text: 'Frecuencia' } }, x: { grid: { display: false } } },
+    plugins: { tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${pct(c.raw, 2)}` } } } },
+});
+
+// Concentración de siniestros grandes
+const conc = R.concentracion;
+new Chart(document.getElementById('gConc'), {
+  type: 'bar',
+  data: { labels: conc.map(c => c.rango_monto.replace(/^\d\. /, '') + ' €'), datasets: [
+    { label: '% de la cantidad de siniestros', data: conc.map(c => c.pct_cantidad), backgroundColor: C.gris, borderRadius: 6 },
+    { label: '% del costo total', data: conc.map(c => c.pct_monto), backgroundColor: C.rosa, borderRadius: 6 },
+  ] },
+  options: { maintainAspectRatio: false, scales: { y: { ticks: { callback: x => x + ' %' } }, x: { grid: { display: false } } },
+    plugins: { tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${fmt(c.raw, 1)} %` } } } },
+});
+const pctGrandes = conc.filter(c => /^[45]\./.test(c.rango_monto)).reduce((a, c) => a + c.pct_monto, 0);
+document.getElementById('pctGrandes').textContent = 'el ' + fmt(pctGrandes) + ' %';
+document.getElementById('tope').textContent = fmt(R.tope);
+document.getElementById('recargo').textContent = '+' + pct(R.recargo_grandes - 1, 0);
+document.getElementById('equi').textContent = fmt(R.equilibrio['Prueba'].cociente_topeado, 2);
+</script>
+</body>
+</html>

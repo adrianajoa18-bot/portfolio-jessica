@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de sostenibilidad – Jessica Ojeda Arenas</title>
+<meta name="description" content="Análisis de los informes de sostenibilidad 2020-2023 de una aseguradora regional: inversión social, voluntariado y KPIs ESG.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/proyecto.css">
+<style>
+  .linea { position: relative; padding-left: 28px; }
+  .linea::before { content: ''; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: var(--borde); }
+  .hito { position: relative; margin-bottom: 22px; }
+  .hito::before { content: ''; position: absolute; left: -26px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--acento); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--acento); }
+  .hito .anio { font-weight: 700; color: var(--acento); font-size: 0.9rem; }
+  .hito p { color: var(--suave); font-size: 0.93rem; }
+  .eval h3 { display: flex; align-items: center; gap: 8px; }
+  .eval .tag { font-size: 0.75rem; padding: 2px 10px; border-radius: 999px; color: #fff; }
+  .anios { display: flex; gap: 6px; margin-bottom: 14px; }
+</style>
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap">
+  <a class="marca" href="../../index.html">Jessica Ojeda</a>
+  <a href="../../index.html#projects">← Volver a proyectos</a>
+</div></nav>
+
+<header class="cabecera"><div class="wrap">
+  <span class="categoria">Reporte · ESG y sostenibilidad</span>
+  <h1>Análisis de sostenibilidad de una aseguradora regional (2020–2023)</h1>
+  <p class="bajada">Releví los informes públicos de sostenibilidad de Zurich Santander Insurance America para medir cómo evolucionaron
+    la inversión social, la participación de los colaboradores y la gobernanza ESG, y qué falta medir.</p>
+  <div class="etiquetas"><span>ESG</span><span>Análisis de KPIs</span><span>Reportes GRI</span><span>PowerPoint</span><span>Visualización</span></div>
+  <div class="botones">
+    <a class="btn lleno" href="https://docs.google.com/presentation/d/1_IY-QUaUYbGtxagXiGKMv0nQdtTRK9WL/edit?usp=sharing" target="_blank" rel="noopener">Ver la presentación</a>
+    <a class="btn" href="../../Presentaci%C3%B3n%20de%20Sostenibilidad-%20Jessica%20Ojeda.pptx" download>Descargar PPTX</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+
+<section>
+  <h2>Indicadores por año</h2>
+  <div class="anios chips" id="chipsAnio"></div>
+  <div class="grid g5" id="kpis"></div>
+  <p class="nota">"s/d": el informe de ese año no publicó el dato.</p>
+</section>
+
+<section>
+  <h2>¿En qué se invirtió?</h2>
+  <p class="intro">Distribución de la inversión en la comunidad por categoría, en dólares.</p>
+  <div class="card">
+    <div class="grafico alto"><canvas id="gCategorias"></canvas></div>
+    <div class="insight"><strong>Lectura:</strong> la inversión total se mantuvo estable (~USD 6 millones por año), pero su composición cambió mucho: en 2023 cayó la inversión en <strong>educación e inclusión</strong> (de USD 2,4 a 0,6 millones) y crecieron <strong>promoción cultural</strong>, <strong>servicios comunitarios</strong> e <strong>infraestructura y salud</strong>. En 2022 aparece por primera vez la categoría de <strong>conservación ambiental</strong>.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Participación de los colaboradores</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Horas de voluntariado</h3><div class="grafico"><canvas id="gHoras"></canvas></div></div>
+    <div class="card"><h3>Colaboradores voluntarios</h3><div class="grafico"><canvas id="gVoluntarios"></canvas></div></div>
+  </div>
+  <div class="insight">Las horas de voluntariado se multiplicaron por más de <strong>20</strong> entre 2021 y 2023. El cambio coincide con 2022, cuando todos los colaboradores pasaron a tener <strong>3 días pagos al año</strong> para hacer voluntariado: un ejemplo de cómo una política concreta mueve un indicador.</div>
+</section>
+
+<section>
+  <h2>Principales hitos</h2>
+  <div class="card linea">
+    <div class="hito"><div class="anio">2020</div><h3>Inicio de la transformación</h3><p>La sostenibilidad entra en la agenda de la alta dirección. Se crea la Dirección Regional de Sostenibilidad, un equipo interdisciplinario y el primer análisis de materialidad.</p></div>
+    <div class="hito"><div class="anio">2021</div><h3>Consolidación y transparencia</h3><p>Adhesión a los Principios para la Sostenibilidad en Seguros (PSI), primer informe de actividades, formación de 21 líderes (252 h) y un dashboard de indicadores ESG alineado con GRI, SASB y MSCI.</p></div>
+    <div class="hito"><div class="anio">2022</div><h3>Expansión y planificación</h3><p>Comité de sostenibilidad formal, plan estratégico 2023-2025, 3 días pagos de voluntariado para todos los colaboradores y 10 iniciativas ESG.</p></div>
+    <div class="hito" style="margin-bottom:0"><div class="anio">2023</div><h3>Alineación regional</h3><p>Revisión de 21 procesos en toda la región, plan Aconcagua 2023-2025 con 7 pilares (sostenibilidad como eje transversal) y primer reporte de resultados del dashboard.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Evaluación</h2>
+  <div class="grid g3 eval">
+    <div class="card"><h3><span class="tag" style="background:#2f855a">Fortalezas</span></h3>
+      <p class="nota" style="margin-top:6px">Inversión social sostenida (~USD 6 M/año), participación creciente de los colaboradores y una gobernanza ESG cada vez más institucionalizada (comité, plan plurianual, dashboard).</p></div>
+    <div class="card"><h3><span class="tag" style="background:#d69e2e">A observar</span></h3>
+      <p class="nota" style="margin-top:6px">Algunos indicadores no se publican todos los años (personas impactadas y horas de formación en 2023), lo que dificulta comparar la evolución.</p></div>
+    <div class="card"><h3><span class="tag" style="background:#2b6cb0">Oportunidades</span></h3>
+      <p class="nota" style="margin-top:6px">Los indicadores miden sobre todo <em>insumos</em> (dinero, horas). El siguiente paso es medir <em>resultados</em>: cómo cambian las condiciones de las personas y organizaciones apoyadas.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>Recomendación</h3>
+    <p>Pasar de medir cuánto se invierte a medir qué cambia. Por ejemplo, sumar al dashboard indicadores de resultado por programa (inserción laboral de los jóvenes acompañados, continuidad escolar, hectáreas restauradas) y publicarlos todos los años con la misma definición, para poder comparar en el tiempo.</p>
+  </div>
+  <p class="nota">Fuente: informes públicos de sostenibilidad 2020-2023. Valores aproximados según cada informe. En 2023 las categorías suman USD 6,42 M frente a USD 6,46 M informados en total.</p>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 Jessica Ojeda Arenas</span>
+  <a href="../../index.html">Volver al portfolio</a>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const C = { navy: '#0a3d62', azul: '#2b6cb0', acento: '#e67e22', rosa: '#c2185b', verde: '#2f855a', gris: '#d9e2ec', suave: '#5b6b7d', violeta: '#6b46c1' };
+Chart.defaults.font.family = "'Poppins', sans-serif";
+Chart.defaults.color = C.suave;
+Chart.defaults.plugins.legend.labels.boxWidth = 12;
+const fmt = (x, d = 0) => x == null ? 's/d' : x.toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+const ANIOS = ['2021', '2022', '2023'];
+const KPI = {
+  '2021': { inv: 6.25, personas: 9286, orgs: 26, part: 55, horas: 203, vol: 350 },
+  '2022': { inv: 5.98, personas: 51620, orgs: 37, part: 70, horas: 2400, vol: 490 },
+  '2023': { inv: 6.46, personas: null, orgs: 45, part: 57, horas: 4368, vol: 625 },
+};
+const CATEG = {
+  'Educación e inclusión':       [2165649, 2445613, 628301],
+  'Protección social':           [1687113, 981090, 1789730],
+  'Promoción cultural':          [1479408, 1987292, 2237023],
+  'Servicios comunitarios':      [875799, 556484, 1158641],
+  'Infraestructura y salud':     [43518, 4054, 568448],
+  'Conservación ambiental':      [0, 8515, 36225],
+};
+const COLORES = [C.navy, C.azul, C.acento, C.rosa, C.violeta, C.verde];
+
+function kpis(a) {
+  const k = KPI[a];
+  document.getElementById('kpis').innerHTML = [
+    ['USD ' + fmt(k.inv, 2) + ' M', 'Inversión en la comunidad'],
+    [k.personas == null ? 's/d' : (a === '2022' ? '+' : '') + fmt(k.personas), 'Personas impactadas'],
+    [fmt(k.orgs), 'Organizaciones apoyadas'],
+    [fmt(k.part) + ' %', 'Colaboradores que participaron'],
+    [(a === '2021' ? '' : '+') + fmt(k.horas), 'Horas de voluntariado'],
+  ].map(([v, n]) => `<div class="card kpi"><div class="valor">${v}</div><div class="nombre">${n}</div></div>`).join('');
+}
+const chips = document.getElementById('chipsAnio');
+chips.innerHTML = ANIOS.map(a => `<button class="chip ${a === '2023' ? 'activo' : ''}" data-a="${a}">${a}</button>`).join('');
+chips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; chips.querySelectorAll('.chip').forEach(c => c.classList.toggle('activo', c === b)); kpis(b.dataset.a); });
+kpis('2023');
+
+new Chart(document.getElementById('gCategorias'), {
+  type: 'bar',
+  data: { labels: ANIOS, datasets: Object.entries(CATEG).map(([n, v], i) => ({ label: n, data: v, backgroundColor: COLORES[i], borderRadius: 4 })) },
+  options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+    scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, ticks: { callback: x => 'USD ' + fmt(x / 1e6, 0) + ' M' } } },
+    plugins: { tooltip: { callbacks: { label: c => ` ${c.dataset.label}: USD ${fmt(c.raw)}` } } } },
+});
+
+const barra = (id, clave, color) => new Chart(document.getElementById(id), {
+  type: 'bar',
+  data: { labels: ANIOS, datasets: [{ data: ANIOS.map(a => KPI[a][clave]), backgroundColor: color, borderRadius: 6 }] },
+  options: { maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { callback: x => fmt(x) } } },
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + fmt(c.raw) } } } },
+});
+barra('gHoras', 'horas', C.acento);
+barra('gVoluntarios', 'vol', C.navy);
+</script>
+</body>
+</html>
